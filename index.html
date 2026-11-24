@@ -1,0 +1,3015 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="bauhaus">
+  <title>Berliner Platz 1 NEU — Kapitel 3: Was kostet das? 互動學習室</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Bauhaus style tokens */
+      --background: #f5f0e8;
+      --surface-container-low: #f2ede5;
+      --surface-container: #eee9e0;
+      --surface-container-high: #e8e3da;
+
+      --on-surface: #1a1a1a;
+      --on-surface-variant: #4a4a4a;
+
+      --outline: #1a1a1a;
+      --outline-variant: #d0cbc3;
+
+      --primary: #1a1a1a;
+      --on-primary: #ffffff;
+      --primary-container: #ffcc00;
+      --on-primary-container: #1a1a1a;
+      --secondary: #e63b2e;
+      --tertiary: #0055ff;
+      --error: #cc0000;
+      --on-error: #ffffff;
+
+      --data-1: #e63b2e;
+      --data-2: #0055ff;
+      --data-3: #1a1a1a;
+      --data-4: #9a7300;
+      --data-context: #b5afa5;
+
+      /* Fonts (with Traditional Chinese support) */
+      --font-headline: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+      --font-body: 'Noto Sans TC', 'Inter', sans-serif;
+      --font-label: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.75rem;
+
+      /* Style effects */
+      --border-thick: 3px solid var(--outline);
+      --border-medium: 2px solid var(--outline);
+      --border-light: 1px solid var(--outline-variant);
+      --offset-shadow: 5px 5px 0 var(--outline);
+      --offset-shadow-sm: 3px 3px 0 var(--outline);
+      --rule-heavy: 6px solid var(--outline);
+
+      /* 2. Semantic & Grammar Gender Tokens (WCAG AA compliant) */
+      --positive: #156f3f;
+      --on-positive: #ffffff;
+      --positive-bg: #e5f4ec;
+      --positive-text: #0f5730;
+      --warning: #9a7300;
+      --warning-bg: #fff6cc;
+
+      --gender-m: #0055ff;
+      --gender-m-bg: #e6eeff;
+      --gender-m-text: #003bb3;
+      --gender-n: #156f3f;
+      --gender-n-bg: #e5f4ec;
+      --gender-n-text: #0f5730;
+      --gender-f: #cc0000;
+      --gender-f-bg: #fde8e8;
+      --gender-f-text: #a30000;
+
+      --surface-card: #ffffff;
+
+      --focus: #0055ff;
+
+      /* 3. Type scale (Dashboard / Explorer) */
+      --display-size: clamp(2rem, 1.5rem + 2.4vw, 3.35rem);
+      --headline-size: clamp(1.375rem, 1.15rem + 0.8vw, 1.85rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1240px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Typography helpers */
+    .de-word {
+      font-family: var(--font-headline);
+      letter-spacing: -0.02em;
+    }
+    .tabular {
+      font-variant-numeric: tabular-nums;
+    }
+    .kicker {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded);
+    }
+    .kicker-yellow {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      border: var(--border-medium);
+    }
+    .kicker-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+
+    /* Header & Masthead */
+    .masthead {
+      border-top: var(--rule-heavy);
+      border-bottom: var(--border-thick);
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-lg);
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: end;
+    }
+    .masthead-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .meta-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--display-size);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .title mark {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      padding-inline: var(--space-xs);
+      box-decoration-break: clone;
+    }
+    .subtitle {
+      margin: var(--space-sm) 0 0;
+      color: var(--on-surface-variant);
+      max-width: 60ch;
+      font-size: var(--body-size);
+    }
+
+    /* Progress Block */
+    .progress-panel {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-card);
+      padding: var(--space-md);
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+    }
+    .progress-label {
+      font-weight: 700;
+      font-size: var(--label-size);
+      color: var(--on-surface);
+    }
+    .progress-pct {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.75rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--on-surface);
+    }
+    .progress-track {
+      height: 18px;
+      border: var(--border-medium);
+      background-color: var(--surface-container-high);
+      margin-bottom: var(--space-md);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--primary-container);
+      border-right: var(--border-medium);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+    .progress-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      border-top: var(--border-light);
+      padding-top: var(--space-sm);
+    }
+    .stat-mini-label {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      display: block;
+    }
+    .stat-mini-val {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--on-surface);
+    }
+    .progress-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: var(--space-sm);
+    }
+
+    /* Module Navigation Tabs */
+    .module-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .nav-tab {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      box-shadow: var(--offset-shadow-sm);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .nav-tab:hover {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-1px, -1px);
+    }
+    .nav-tab.active {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .nav-tab.active:hover {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .nav-tab-num {
+      font-family: var(--font-headline);
+      font-size: var(--label-size);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: 2px 6px;
+      border-radius: var(--rounded);
+    }
+
+    /* Sections & Blocks */
+    .module-panel {
+      display: none;
+      gap: var(--space-lg);
+    }
+    .module-panel.active {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      animation: slideIn var(--dur-short) var(--ease-out);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .section-open {
+      border-top: 8px solid var(--section-accent, var(--tertiary));
+      padding-top: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+    }
+    .section-open.accent-blue { --section-accent: var(--tertiary); }
+    .section-open.accent-yellow { --section-accent: var(--primary-container); }
+    .section-open.accent-red { --section-accent: var(--secondary); }
+    .section-open.accent-black { --section-accent: var(--primary); }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: var(--space-sm) 0 0;
+    }
+    .section-desc {
+      margin: var(--space-xs) 0 0;
+      color: var(--on-surface-variant);
+      max-width: 65ch;
+    }
+
+    .block {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-container-low);
+      padding: var(--space-lg);
+    }
+    .block-white {
+      background-color: var(--surface-card);
+    }
+    .block-yellow {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .block-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+
+    /* Buttons */
+    .btn {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      background-color: var(--surface-card);
+      color: var(--on-surface);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover:not(:disabled) {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      transform: translate(-1px, -1px);
+    }
+    .btn:active:not(:disabled) {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .btn-blue {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+    .btn-sm {
+      min-height: 36px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: 0.875rem;
+      border-width: 2px;
+      box-shadow: 2px 2px 0 var(--outline);
+    }
+    .btn-sm:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: none;
+    }
+
+    /* Form Controls */
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      flex: 1 1 200px;
+    }
+    .field-label {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--on-surface);
+    }
+    .input-bauhaus, .select-bauhaus {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 0;
+      border-bottom: var(--border-thick);
+      background-color: var(--surface-card);
+      color: var(--on-surface);
+      border-radius: 0;
+      outline: none;
+    }
+    .select-bauhaus {
+      padding-right: var(--space-xl);
+      cursor: pointer;
+    }
+    .input-bauhaus:focus, .select-bauhaus:focus {
+      border-bottom-color: var(--tertiary);
+      background-color: var(--warning-bg);
+    }
+    .input-boxed {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+    }
+
+    /* Gender Badges */
+    .gender-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-headline);
+      font-weight: 700;
+      padding: 2px 10px;
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      font-size: 0.85rem;
+    }
+    .gender-der {
+      background-color: var(--gender-m);
+      color: var(--on-primary);
+    }
+    .gender-das {
+      background-color: var(--gender-n);
+      color: var(--on-primary);
+    }
+    .gender-die {
+      background-color: var(--gender-f);
+      color: var(--on-primary);
+    }
+    .gender-pl {
+      background-color: var(--primary);
+      color: var(--on-primary);
+    }
+    .tint-der {
+      background-color: var(--gender-m-bg);
+      color: var(--gender-m-text);
+      border-color: var(--gender-m);
+    }
+    .tint-das {
+      background-color: var(--gender-n-bg);
+      color: var(--gender-n-text);
+      border-color: var(--gender-n);
+    }
+    .tint-die {
+      background-color: var(--gender-f-bg);
+      color: var(--gender-f-text);
+      border-color: var(--gender-f);
+    }
+
+    /* Legend bar */
+    .legend-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-md);
+      background-color: var(--surface-card);
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Filter Button Group */
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+    .filter-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      border-radius: var(--rounded);
+      background-color: var(--surface-card);
+      color: var(--on-surface);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .filter-btn:hover {
+      background-color: var(--surface-container-high);
+    }
+    .filter-btn.active {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: 2px 2px 0 var(--outline);
+    }
+
+    /* Flashcard Spotlight Deck */
+    .flashcard-deck-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: stretch;
+    }
+    .spotlight-card {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow);
+      background-color: var(--surface-card);
+      padding: var(--space-xl) var(--space-lg);
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      transition: transform var(--dur-micro) var(--ease-out);
+    }
+    .spotlight-card:hover {
+      transform: translate(-2px, -2px);
+    }
+    .spotlight-card.flipped {
+      background-color: var(--surface-container);
+    }
+    .spotlight-word {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: var(--space-md) 0 var(--space-xs);
+    }
+    .spotlight-plural {
+      font-size: 0.95rem;
+      color: var(--on-surface-variant);
+      font-family: var(--font-headline);
+    }
+    .spotlight-meaning {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: var(--space-sm) 0;
+    }
+    .spotlight-example {
+      padding: var(--space-md);
+      background-color: var(--surface-card);
+      border-left: 4px solid var(--tertiary);
+      margin-top: var(--space-sm);
+    }
+
+    /* Vocab Card Grid */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(270px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .vocab-card {
+      border: var(--border-thick);
+      border-radius: var(--rounded);
+      box-shadow: var(--offset-shadow-sm);
+      background-color: var(--surface-card);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      min-height: 195px;
+      transition: transform var(--dur-micro) var(--ease-out), background-color var(--dur-micro) var(--ease-out);
+    }
+    .vocab-card.is-flipped {
+      background-color: var(--surface-container);
+    }
+    .vocab-card.is-mastered {
+      border-color: var(--positive);
+    }
+    .vocab-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .vocab-card-cat {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 600;
+    }
+    .vocab-card-body {
+      cursor: pointer;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-block: var(--space-xs);
+    }
+    .vocab-de {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.3rem;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .vocab-pl {
+      font-size: 0.85rem;
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+    }
+    .vocab-zh {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: var(--space-xs);
+    }
+    .vocab-ex {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      border-left: 3px solid var(--primary);
+      padding-left: var(--space-sm);
+    }
+    .vocab-card-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      border-top: var(--border-light);
+      padding-top: var(--space-sm);
+    }
+
+    /* Compound Words Table */
+    .compound-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .compound-item {
+      background-color: var(--surface-card);
+      border: var(--border-medium);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    /* Module 2: Numbers & Flohmarkt */
+    .two-col-asymmetric {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .number-display-box {
+      background-color: var(--surface-card);
+      border: var(--border-thick);
+      padding: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+    .number-big {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--on-surface);
+    }
+    .number-german {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: clamp(1.2rem, 1rem + 0.8vw, 1.65rem);
+      color: var(--tertiary);
+      margin-top: var(--space-sm);
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+    .number-breakdown {
+      margin-top: var(--space-md);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--primary-container);
+      border: var(--border-medium);
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    /* Flohmarkt Simulator */
+    .stall-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .stall-item {
+      border: var(--border-medium);
+      background-color: var(--surface-card);
+      padding: var(--space-sm);
+      text-align: left;
+      cursor: pointer;
+      min-height: 44px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .stall-item.selected {
+      background-color: var(--primary-container);
+      box-shadow: 3px 3px 0 var(--outline);
+    }
+    .dialogue-bubble {
+      border: var(--border-medium);
+      background-color: var(--surface-card);
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+    .dialogue-bubble.seller {
+      border-left: 6px solid var(--tertiary);
+    }
+    .dialogue-bubble.buyer {
+      border-left: 6px solid var(--primary-container);
+    }
+
+    /* Module 3: Grammar Matrix */
+    .bauhaus-table-wrap {
+      overflow-x: auto;
+      background-color: var(--surface-card);
+      border: var(--border-thick);
+      box-shadow: var(--offset-shadow);
+    }
+    .bauhaus-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .bauhaus-table th {
+      background-color: var(--surface-container-high);
+      padding: var(--space-md);
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: 0.875rem;
+      border-bottom: var(--border-thick);
+    }
+    .bauhaus-table td {
+      padding: var(--space-md);
+      border-bottom: var(--border-light);
+      vertical-align: top;
+    }
+    .bauhaus-table tr.is-highlighted {
+      background-color: var(--warning-bg);
+    }
+    .bauhaus-table tr.is-highlighted td:first-child {
+      border-left: 6px solid var(--primary-container);
+    }
+
+    .pronoun-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .pronoun-card {
+      border: var(--border-thick);
+      background-color: var(--surface-card);
+      box-shadow: var(--offset-shadow-sm);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .pronoun-arrow {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    .sandbox-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    /* Module 4: Redemittel */
+    .dialog-card {
+      border: var(--border-thick);
+      background-color: var(--surface-card);
+      box-shadow: var(--offset-shadow);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .dialog-line {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: var(--border-light);
+    }
+    .dialog-role {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--label-size);
+      padding: 2px 6px;
+      height: fit-content;
+      text-align: center;
+      border: var(--border-medium);
+    }
+    .role-k {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .role-v {
+      background-color: var(--tertiary);
+      color: var(--on-primary);
+    }
+
+    /* Module 5: Quizzes */
+    .quiz-card {
+      border: var(--border-thick);
+      background-color: var(--surface-card);
+      box-shadow: var(--offset-shadow);
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .quiz-question {
+      border: var(--border-medium);
+      background-color: var(--surface-container-low);
+      padding: var(--space-md);
+    }
+    .quiz-question.correct {
+      background-color: var(--positive-bg);
+      border-color: var(--positive);
+    }
+    .quiz-question.wrong {
+      background-color: var(--gender-f-bg);
+      border-color: var(--error);
+    }
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .quiz-opt-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: var(--border-medium);
+      background-color: var(--surface-card);
+      color: var(--on-surface);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .quiz-opt-btn.selected {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+      box-shadow: 2px 2px 0 var(--outline);
+    }
+    .quiz-explain {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background-color: var(--surface-card);
+      border-left: 4px solid var(--primary);
+      font-size: 0.9rem;
+    }
+    .reorder-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .reorder-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      background-color: var(--surface-card);
+      border: var(--border-medium);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .reorder-btns {
+      display: flex;
+      gap: var(--space-xs);
+      flex-shrink: 0;
+    }
+
+    .module-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      border-top: var(--border-thick);
+      padding-top: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+
+    .site-footer {
+      border-top: var(--rule-heavy);
+      padding-top: var(--space-md);
+      padding-bottom: var(--space-lg);
+      color: var(--on-surface-variant);
+      font-size: 0.875rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .muted { color: var(--on-surface-variant); }
+    .hidden { display: none !important; }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .masthead, .flashcard-deck-grid, .two-col-asymmetric {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .pronoun-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-md);
+        gap: var(--space-md);
+      }
+      .block, .dialog-card, .quiz-card {
+        padding: var(--space-md);
+      }
+      .progress-stats {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .dialog-line {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+
+    <!-- MASTHEAD -->
+    <header class="masthead">
+      <div>
+        <div class="masthead-meta">
+          <span class="kicker">BERLINER PLATZ 1 NEU</span>
+          <span class="meta-tag">KAPITEL 3 · A1 DEUTSCH · 繁體中文互動版</span>
+        </div>
+        <h1 class="title">Was <mark>kostet</mark> das?</h1>
+        <p class="subtitle">
+          購物議價、數字與歐元價格、日常物品詞性與基礎冠詞體系。專為德語 A1 初學者設計的五階段互動學習室。
+        </p>
+      </div>
+
+      <div class="progress-panel" aria-label="學習進度儀表板">
+        <div class="progress-header">
+          <span class="progress-label">第三章整體學習進度</span>
+          <span class="progress-pct tabular" id="progress-pct-text">0%</span>
+        </div>
+        <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-aria">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-stats">
+          <div>
+            <span class="stat-mini-label">已熟練單字</span>
+            <span class="stat-mini-val tabular" id="stat-vocab">0 / 34</span>
+          </div>
+          <div>
+            <span class="stat-mini-label">對話練習</span>
+            <span class="stat-mini-val tabular" id="stat-dialogs">0 / 5</span>
+          </div>
+          <div>
+            <span class="stat-mini-label">測驗最高分</span>
+            <span class="stat-mini-val tabular" id="stat-quiz">未作答</span>
+          </div>
+        </div>
+        <div class="progress-actions">
+          <button type="button" class="btn btn-sm" id="reset-progress-btn" onclick="handleResetProgress(this)">重設學習紀錄</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MODULE NAVIGATION TABS -->
+    <nav class="module-nav" aria-label="章節學習模組導覽">
+      <button type="button" class="nav-tab active" data-tab="vocab" onclick="switchTab('vocab')">
+        <span class="nav-tab-num">01</span> 單字與閃卡
+      </button>
+      <button type="button" class="nav-tab" data-tab="numbers" onclick="switchTab('numbers')">
+        <span class="nav-tab-num">02</span> 價格與數字
+      </button>
+      <button type="button" class="nav-tab" data-tab="grammar" onclick="switchTab('grammar')">
+        <span class="nav-tab-num">03</span> 文法視覺化
+      </button>
+      <button type="button" class="nav-tab" data-tab="dialogs" onclick="switchTab('dialogs')">
+        <span class="nav-tab-num">04</span> 實用句型對話
+      </button>
+      <button type="button" class="nav-tab" data-tab="quiz" onclick="switchTab('quiz')">
+        <span class="nav-tab-num">05</span> 互動自我檢測
+      </button>
+    </nav>
+
+    <!-- =======================================================
+         MODULE 1: WORTSCHATZ & FLASHCARDS
+         ======================================================= -->
+    <section id="panel-vocab" class="module-panel active" aria-label="單字與閃卡">
+      <div class="section-open accent-blue">
+        <div>
+          <span class="kicker kicker-blue">01 WORTSCHATZ &amp; FLASHCARDS</span>
+          <h2 class="section-title">日常物品單字庫與翻轉閃卡</h2>
+          <p class="section-desc">
+            記德語名詞時，請務必連同「定冠詞（der / das / die）」一起記憶！點擊閃卡即可翻轉查看中文翻譯、複數形式與課本例句。
+          </p>
+        </div>
+      </div>
+
+      <!-- Gender Color Legend -->
+      <div class="legend-bar">
+        <strong>名詞性別色彩標籤：</strong>
+        <span class="legend-item"><span class="gender-pill gender-der">der</span> 陽性 Maskulinum（藍色）</span>
+        <span class="legend-item"><span class="gender-pill gender-das">das</span> 中性 Neutrum（綠色）</span>
+        <span class="legend-item"><span class="gender-pill gender-die">die</span> 陰性 Femininum（紅色）</span>
+        <span class="legend-item muted">｜提示：複數定冠詞一律為 <strong>die</strong></span>
+      </div>
+
+      <!-- Spotlight Flashcard Trainer -->
+      <div class="block">
+        <div class="flashcard-deck-grid">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-sm); flex-wrap:wrap; gap:var(--space-sm);">
+              <strong>精選單字閃卡練習台</strong>
+              <span class="muted tabular" id="deck-counter">第 1 / 34 張</span>
+            </div>
+            <div class="spotlight-card" id="spotlight-card" tabindex="0" role="button" aria-label="點擊翻轉閃卡" onclick="flipSpotlight()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipSpotlight();}">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+                <span id="spot-badge" class="gender-pill gender-der">der</span>
+                <span id="spot-cat" class="vocab-card-cat">電器與科技</span>
+              </div>
+              <div id="spot-front">
+                <div class="spotlight-word de-word" id="spot-de">der Computer</div>
+                <div class="spotlight-plural" id="spot-pl">複數：die Computer</div>
+                <p class="muted" style="margin-top:var(--space-md); font-size:0.875rem;">點擊卡片翻面查看中文與課本例句 →</p>
+              </div>
+              <div id="spot-back" class="hidden">
+                <div class="spotlight-meaning" id="spot-zh">電腦</div>
+                <div class="spotlight-example">
+                  <div class="de-word" style="font-weight:700;" id="spot-ex-de">Der Computer ist sehr teuer. Er kostet fast 300 Euro.</div>
+                  <div class="muted" style="font-size:0.9rem; margin-top:var(--space-xs);" id="spot-ex-zh">這台電腦很貴。它要價將近 300 歐元。</div>
+                </div>
+                <div id="spot-compound" class="muted" style="font-size:0.85rem; margin-top:var(--space-sm);"></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; justify-content:space-between; gap:var(--space-md);">
+            <div class="block-white" style="border:var(--border-medium); padding:var(--space-md);">
+              <strong>閃卡操作與熟練標記</strong>
+              <p class="muted" style="font-size:0.9rem; margin:var(--space-xs) 0 var(--space-md);">
+                搭配左右鍵或點擊按鈕切換單字；掌握詞性與意思後，按下「標記已熟練」累積進度。
+              </p>
+              <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+                <button type="button" class="btn" onclick="prevSpotlight()">← 上一張</button>
+                <button type="button" class="btn" onclick="nextSpotlight()">下一張 →</button>
+                <button type="button" class="btn" onclick="randomSpotlight()">隨機抽卡</button>
+              </div>
+              <div style="margin-top:var(--space-md); display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+                <button type="button" class="btn btn-primary" id="spot-master-btn" onclick="toggleSpotlightMastered()">標記已熟練</button>
+                <button type="button" class="btn" onclick="flipSpotlight()">翻轉卡片</button>
+              </div>
+            </div>
+
+            <div class="block-yellow" style="border:var(--border-medium); padding:var(--space-md);">
+              <strong>學習技巧 TIPP：長單字拆解法則</strong>
+              <p style="margin:var(--space-xs) 0 0; font-size:0.9rem;">
+                德語複合名詞（Komposita）的詞性永遠由<strong>最後一個單字</strong>決定！例如：<br>
+                <span class="de-word"><strong>das</strong> Wasser + <strong>der</strong> Kocher → <strong>der</strong> Wasserkocher</span>（電熱水壺）
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filter Toolbar -->
+      <div class="block block-white">
+        <div class="controls-row">
+          <div class="field-group">
+            <label class="field-label" for="vocab-search">搜尋單字（輸入德語或中文）</label>
+            <input type="text" id="vocab-search" class="input-bauhaus" placeholder="例如：Handy、電腦、Lampe" oninput="renderVocabGrid()">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="vocab-cat-select">依主題篩選</label>
+            <select id="vocab-cat-select" class="select-bauhaus" onchange="renderVocabGrid()">
+              <option value="all">全部主題（34 個單字）</option>
+              <option value="Elektro">電器與科技 Elektrogeräte</option>
+              <option value="Buero">文具與書本 Büro &amp; Schule</option>
+              <option value="Alltag">家具與生活 Möbel &amp; Alltag</option>
+              <option value="Komposita">複合名詞 Komposita</option>
+            </select>
+          </div>
+          <div class="field-group" style="flex: 0 1 auto;">
+            <span class="field-label">依冠詞性別過濾</span>
+            <div class="filter-group" role="group" aria-label="冠詞性別篩選">
+              <button type="button" class="filter-btn active" data-gender="all" onclick="setGenderFilter('all')">全部</button>
+              <button type="button" class="filter-btn" data-gender="der" onclick="setGenderFilter('der')">der 陽性</button>
+              <button type="button" class="filter-btn" data-gender="das" onclick="setGenderFilter('das')">das 中性</button>
+              <button type="button" class="filter-btn" data-gender="die" onclick="setGenderFilter('die')">die 陰性</button>
+              <button type="button" class="filter-btn" id="unmastered-filter-btn" onclick="toggleUnmasteredFilter()">只看未熟練</button>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-md); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-sm);">
+          <span class="muted" id="vocab-count-label">目前顯示 34 個單字（點擊任一張卡片可翻面）</span>
+          <button type="button" class="btn btn-sm" onclick="flipAllVisibleCards()">全部翻面 / 復原</button>
+        </div>
+      </div>
+
+      <!-- Vocab Grid -->
+      <div id="vocab-grid" class="vocab-grid"></div>
+
+      <!-- Compound Words Reference -->
+      <div class="block">
+        <div style="margin-bottom:var(--space-md);">
+          <span class="kicker">LANGE WÖRTER VERSTEHEN</span>
+          <h3 style="margin:var(--space-sm) 0 var(--space-xs); font-family:var(--font-headline);">第三章重點複合名詞拆解（課本 13a）</h3>
+          <p class="muted" style="margin:0;">把長單字拆成兩個小單字，意思立刻一目了然，且詞性由後方名詞決定。</p>
+        </div>
+        <div class="compound-grid" id="compound-grid"></div>
+      </div>
+
+      <div class="module-footer">
+        <span class="muted">模組 01 / 05 — Wortschatz &amp; Flashcards</span>
+        <button type="button" class="btn btn-primary" onclick="switchTab('numbers')">前往下一模組：02 價格與數字 →</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         MODULE 2: PREISE, ZAHLEN & FLOHMARKT
+         ======================================================= -->
+    <section id="panel-numbers" class="module-panel" aria-label="價格與數字">
+      <div class="section-open accent-yellow">
+        <div>
+          <span class="kicker">02 PREISE &amp; ZAHLEN BIS 1 MILLION</span>
+          <h2 class="section-title">德語數字與歐元價格模擬器 ＋ 跳蚤市場議價</h2>
+          <p class="section-desc">
+            輸入任意數字（最高至一千萬）或歐元價格，即時轉換標準德語念法與拆解結構，再到「跳蚤市場 Flohmarkt」實戰殺價！
+          </p>
+        </div>
+      </div>
+
+      <div class="two-col-asymmetric">
+        <!-- Number & Price Simulator -->
+        <div class="block">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-sm); margin-bottom:var(--space-md);">
+            <h3 style="margin:0; font-family:var(--font-headline);">數字與價格即時轉換器</h3>
+            <div class="filter-group" role="group" aria-label="轉換模式">
+              <button type="button" class="filter-btn active" id="mode-price-btn" onclick="setNumberMode('price')">歐元價格 (€)</button>
+              <button type="button" class="filter-btn" id="mode-plain-btn" onclick="setNumberMode('plain')">純數字 (Zahl)</button>
+            </div>
+          </div>
+
+          <div class="controls-row">
+            <div class="field-group">
+              <label class="field-label" for="num-input">輸入金額或數字（例：139、2312、8.50 或 8,50）</label>
+              <input type="text" id="num-input" class="input-bauhaus input-boxed tabular" value="139" oninput="updateNumberConverter()">
+            </div>
+            <button type="button" class="btn btn-blue" onclick="speakCurrentNumber()">試聽德語朗讀</button>
+          </div>
+
+          <div class="number-display-box" aria-live="polite">
+            <div class="muted" style="font-size:var(--label-size); font-weight:700;">顯示格式 &amp; 標準念法</div>
+            <div class="number-big tabular" id="num-formatted">139 €</div>
+            <div class="number-german" id="num-german">einhundertneununddreißig Euro</div>
+            <div class="number-breakdown" id="num-breakdown">
+              拆解結構：ein-hundert (100) + neun-und-dreißig (9 與 30) + Euro
+            </div>
+            <div id="tts-feedback" class="muted" style="font-size:0.85rem; margin-top:var(--space-sm);"></div>
+          </div>
+
+          <div style="margin-top:var(--space-md);">
+            <span class="field-label">課本常見價格與大數字範例（點擊一鍵帶入）：</span>
+            <div class="preset-chips">
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('65', 'price')">65 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('139', 'price')">139 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('289', 'price')">289 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('717', 'price')">717 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('2312', 'price')">2.312 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('3800', 'price')">3.800 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('745600', 'price')">745.600 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('8,50', 'price')">8,50 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('0,89', 'price')">0,89 €</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('1000000', 'plain')">1.000.000</button>
+              <button type="button" class="btn btn-sm" onclick="applyNumberPreset('3265170', 'plain')">3.265.170</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Number Rules Cheat Sheet -->
+        <div class="block block-white">
+          <h3 style="margin-top:0; font-family:var(--font-headline);">德語數字與標價四大規則</h3>
+          <ul style="padding-left:1.25rem; margin:0; display:flex; flex-direction:column; gap:var(--space-sm);">
+            <li><strong>兩位數「由後往前」念：</strong><br><span class="de-word">39 = neun<strong>und</strong>dreißig</span>（先念 9，再用 und 連接 30）。</li>
+            <li><strong>千位數用句點 <code>.</code> 分隔：</strong><br><span class="de-word">2.312</span> 讀作 <span class="de-word">zweitausenddreihundertzwölf</span>（整串寫在一起不空格）。</li>
+            <li><strong>價格小數點用逗點 <code>,</code>：</strong><br><span class="de-word">8,50 €</span> 讀作 <span class="de-word">acht Euro fünfzig</span>（中間的 Euro 代替小數點，Cent 常省略）。</li>
+            <li><strong>「百萬」單獨加空格與複數：</strong><br><span class="de-word">1.000.000 = <strong>eine Million</strong></span>；兩百萬以上用複數 <span class="de-word">zwei <strong>Millionen</strong></span>。</li>
+          </ul>
+          <div class="block-yellow" style="border:var(--border-medium); padding:var(--space-md); margin-top:var(--space-md);">
+            <strong>1 的變化注意：</strong><br>
+            單純數數：<span class="de-word">eins</span><br>
+            接百/千：<span class="de-word">einhundert / eintausend</span><br>
+            接歐元：<span class="de-word">ein Euro</span>（不加 s）
+          </div>
+        </div>
+      </div>
+
+      <!-- Flohmarkt Negotiation Simulator -->
+      <div class="block">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:var(--space-md); margin-bottom:var(--space-md);">
+          <div>
+            <span class="kicker kicker-blue">FLOHMARKT-SIMULATOR</span>
+            <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline);">跳蚤市場買賣議價模擬台</h3>
+            <p class="muted" style="margin:var(--space-xs) 0 0;">選擇一件二手商品，先詢問功能，再提出你的理想價格與賣家殺價！</p>
+          </div>
+          <span class="muted tabular" id="flohmarkt-deals-badge">已成交商品：0 件</span>
+        </div>
+
+        <div class="stall-grid" id="flohmarkt-stall"></div>
+
+        <div class="two-col-asymmetric">
+          <div class="block-white" style="border:var(--border-thick); padding:var(--space-md);">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-sm);">
+              <div>
+                <span id="floh-gender-badge" class="gender-pill gender-der">der</span>
+                <strong class="de-word" style="font-size:1.25rem; margin-left:var(--space-xs);" id="floh-item-name">der Herd</strong>
+                <span class="muted" id="floh-item-zh">（電爐）</span>
+              </div>
+              <div class="tabular" style="font-family:var(--font-headline); font-weight:700; font-size:1.4rem;" id="floh-ask-price">140 €</div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); margin-bottom:var(--space-md);">
+              <button type="button" class="btn btn-sm" onclick="flohAskPrice()">1. 詢問價格 Was kostet...?</button>
+              <button type="button" class="btn btn-sm" onclick="flohAskFunction()">2. 詢問功能 Funktioniert...?</button>
+            </div>
+
+            <div class="controls-row" style="margin-bottom:var(--space-md);">
+              <div class="field-group" style="flex:2 1 180px;">
+                <label class="field-label" for="floh-slider">調整你的出價（滑桿）</label>
+                <input type="range" id="floh-slider" min="1" max="200" value="100" oninput="syncOfferFromSlider(this.value)" style="min-height:44px; cursor:pointer;">
+              </div>
+              <div class="field-group" style="flex:1 1 110px;">
+                <label class="field-label" for="floh-number">出價金額 (€)</label>
+                <input type="number" id="floh-number" class="input-bauhaus input-boxed tabular" min="1" max="500" value="100" oninput="syncOfferFromNumber(this.value)">
+              </div>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+              <button type="button" class="btn btn-primary" onclick="submitFlohOffer()">3. 出價議價 (Ich zahle … €)</button>
+              <button type="button" class="btn btn-blue hidden" id="floh-accept-btn" onclick="acceptFlohDeal()">成交！Gut, nehme ich!</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="field-label" style="margin-bottom:var(--space-xs);">即時議價對話紀錄</div>
+            <div id="floh-log" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-footer">
+        <button type="button" class="btn" onclick="switchTab('vocab')">← 上一模組：01 單字與閃卡</button>
+        <button type="button" class="btn btn-primary" onclick="switchTab('grammar')">前往下一模組：03 文法視覺化 →</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         MODULE 3: GRAMMATIK VISUALIZER
+         ======================================================= -->
+    <section id="panel-grammar" class="module-panel" aria-label="文法視覺化">
+      <div class="section-open accent-red">
+        <div>
+          <span class="kicker">03 GRAMMATIK VISUALIZER</span>
+          <h2 class="section-title">冠詞體系對照表 ＆ 人稱代名詞替換機制</h2>
+          <p class="section-desc">
+            掌握第三章兩大文法核心：(1) 四種冠詞在「陽／中／陰性」主格下的變化規則；(2) 用 <span class="de-word"><strong>er / es / sie</strong></span> 取代前面提過的名詞。
+          </p>
+        </div>
+      </div>
+
+      <!-- Part A: Article System Matrix & Interactive Switcher -->
+      <div class="block">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-md); margin-bottom:var(--space-md);">
+          <div>
+            <h3 style="margin:0; font-family:var(--font-headline);">1. 冠詞體系切換對照表（Nominativ 主格）</h3>
+            <p class="muted" style="margin:var(--space-xs) 0 0;">點擊下方冠詞類型，突顯該列變化並查看造句實例：</p>
+          </div>
+          <div class="filter-group" role="group" aria-label="冠詞類別切換">
+            <button type="button" class="filter-btn active" data-art="def" onclick="selectArticleType('def')">定冠詞 der/das/die</button>
+            <button type="button" class="filter-btn" data-art="indef" onclick="selectArticleType('indef')">不定冠詞 ein/eine</button>
+            <button type="button" class="filter-btn" data-art="neg" onclick="selectArticleType('neg')">否定冠詞 kein/keine</button>
+            <button type="button" class="filter-btn" data-art="poss" onclick="selectArticleType('poss')">所有格 mein/dein</button>
+          </div>
+        </div>
+
+        <div class="bauhaus-table-wrap">
+          <table class="bauhaus-table">
+            <thead>
+              <tr>
+                <th>冠詞類別</th>
+                <th><span class="gender-pill gender-der">陽性 Maskulinum</span></th>
+                <th><span class="gender-pill gender-das">中性 Neutrum</span></th>
+                <th><span class="gender-pill gender-die">陰性 Femininum</span></th>
+                <th><span class="gender-pill gender-pl">複數 Plural</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row-def" class="is-highlighted">
+                <td><strong>定冠詞</strong><br><span class="muted" style="font-size:0.85rem;">特指／已知事物</span></td>
+                <td class="de-word"><strong>der</strong> Bleistift</td>
+                <td class="de-word"><strong>das</strong> Handy</td>
+                <td class="de-word"><strong>die</strong> Schere</td>
+                <td class="de-word"><strong>die</strong> Lampen</td>
+              </tr>
+              <tr id="row-indef">
+                <td><strong>不定冠詞</strong><br><span class="muted" style="font-size:0.85rem;">初次提到「一個」</span></td>
+                <td class="de-word"><strong>ein</strong> Bleistift</td>
+                <td class="de-word"><strong>ein</strong> Handy</td>
+                <td class="de-word"><strong>eine</strong> Schere</td>
+                <td class="muted">（複數無不定冠詞）</td>
+              </tr>
+              <tr id="row-neg">
+                <td><strong>否定冠詞</strong><br><span class="muted" style="font-size:0.85rem;">「不是／沒有⋯⋯」</span></td>
+                <td class="de-word"><strong>kein</strong> Bleistift</td>
+                <td class="de-word"><strong>kein</strong> Handy</td>
+                <td class="de-word"><strong>keine</strong> Schere</td>
+                <td class="de-word"><strong>keine</strong> Lampen</td>
+              </tr>
+              <tr id="row-poss">
+                <td><strong>所有格冠詞</strong><br><span class="muted" style="font-size:0.85rem;">「我的／你的」</span></td>
+                <td class="de-word"><strong>mein / dein</strong> Bleistift</td>
+                <td class="de-word"><strong>mein / dein</strong> Handy</td>
+                <td class="de-word"><strong>meine / deine</strong> Schere</td>
+                <td class="de-word"><strong>meine / deine</strong> Lampen</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Interactive Sentence Builder -->
+        <div class="block-white" style="border:var(--border-thick); padding:var(--space-md); margin-top:var(--space-lg);">
+          <h4 style="margin:0 0 var(--space-sm); font-family:var(--font-headline);">互動冠詞造句實驗室（選擇物品與冠詞形式）</h4>
+          <div class="controls-row">
+            <div class="field-group">
+              <label class="field-label" for="gram-noun-select">選擇課本名詞</label>
+              <select id="gram-noun-select" class="select-bauhaus" onchange="updateGrammarBuilder()">
+                <option value="0">der Kuli（陽性 · 原子筆）</option>
+                <option value="1">der Fernseher（陽性 · 電視機）</option>
+                <option value="2">das Handy（中性 · 手機）</option>
+                <option value="3">das Heft（中性 · 筆記本）</option>
+                <option value="4">die Lampe（陰性 · 檯燈）</option>
+                <option value="5">die Schere（陰性 · 剪刀）</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="gram-adj-select">描述品質形容詞</label>
+              <select id="gram-adj-select" class="select-bauhaus" onchange="updateGrammarBuilder()">
+                <option value="modern">modern（現代的）</option>
+                <option value="praktisch">praktisch（實用的）</option>
+                <option value="fast neu">fast neu（幾乎全新）</option>
+                <option value="kaputt">kaputt（壞掉的）</option>
+                <option value="sehr schön">sehr schön（非常漂亮）</option>
+                <option value="billig">billig（便宜的）</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="gram-builder-output" style="margin-top:var(--space-md); padding:var(--space-md); background-color:var(--surface-container-low); border-left:5px solid var(--tertiary);"></div>
+        </div>
+      </div>
+
+      <!-- Part B: Personal Pronouns (er / es / sie) -->
+      <div class="block">
+        <div style="margin-bottom:var(--space-md);">
+          <h3 style="margin:0; font-family:var(--font-headline);">2. 人稱代名詞替換機制（Artikel und Personalpronomen）</h3>
+          <p class="muted" style="margin:var(--space-xs) 0 0;">
+            為了避免重複念同一個名詞，德語依據名詞的「文法性別」替換為第三人稱代名詞：<span class="de-word"><strong>er / es / sie</strong></span>（中文皆譯為「它」）。
+          </p>
+        </div>
+
+        <div class="pronoun-grid">
+          <div class="pronoun-card">
+            <div class="pronoun-arrow">
+              <span class="gender-pill gender-der">der</span>
+              <span>➔</span>
+              <span class="gender-pill tint-der">er</span>
+            </div>
+            <div><strong>陽性名詞改用 <span class="de-word">er</span></strong></div>
+            <div class="de-word" style="background-color:var(--gender-m-bg); padding:var(--space-sm); border-left:4px solid var(--gender-m);">
+              <strong>Der Kuli</strong> ist sehr schön.<br>
+              → <strong>Er</strong> funktioniert auch gut.
+            </div>
+            <div class="muted" style="font-size:0.875rem;">這支原子筆很漂亮。它也很好寫。</div>
+          </div>
+
+          <div class="pronoun-card">
+            <div class="pronoun-arrow">
+              <span class="gender-pill gender-das">das</span>
+              <span>➔</span>
+              <span class="gender-pill tint-das">es</span>
+            </div>
+            <div><strong>中性名詞改用 <span class="de-word">es</span></strong></div>
+            <div class="de-word" style="background-color:var(--gender-n-bg); padding:var(--space-sm); border-left:4px solid var(--gender-n);">
+              <strong>Das Handy</strong> kostet 95 Euro.<br>
+              → <strong>Es</strong> hat auch eine Kamera.
+            </div>
+            <div class="muted" style="font-size:0.875rem;">這支手機要 95 歐元。它還有相機功能。</div>
+          </div>
+
+          <div class="pronoun-card">
+            <div class="pronoun-arrow">
+              <span class="gender-pill gender-die">die</span>
+              <span>➔</span>
+              <span class="gender-pill tint-die">sie</span>
+            </div>
+            <div><strong>陰性名詞改用 <span class="de-word">sie</span></strong></div>
+            <div class="de-word" style="background-color:var(--gender-f-bg); padding:var(--space-sm); border-left:4px solid var(--gender-f);">
+              <strong>Die Waschmaschine</strong> ist neu.<br>
+              → <strong>Sie</strong> wäscht sehr gut.
+            </div>
+            <div class="muted" style="font-size:0.875rem;">這台洗衣機是新的。它洗得非常乾淨。</div>
+          </div>
+        </div>
+
+        <!-- Interactive Pronoun Morph Sandbox -->
+        <div style="margin-top:var(--space-lg);">
+          <h4 style="margin:0 0 var(--space-sm); font-family:var(--font-headline);">動態替換練習：點擊下方卡片切換「名詞 ⇄ 代名詞」</h4>
+          <div class="sandbox-grid" id="pronoun-sandbox"></div>
+        </div>
+      </div>
+
+      <div class="module-footer">
+        <button type="button" class="btn" onclick="switchTab('numbers')">← 上一模組：02 價格與數字</button>
+        <button type="button" class="btn btn-primary" onclick="switchTab('dialogs')">前往下一模組：04 實用句型對話 →</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         MODULE 4: REDEMITTEL & DIALOGE
+         ======================================================= -->
+    <section id="panel-dialogs" class="module-panel" aria-label="實用句型對話">
+      <div class="section-open accent-black">
+        <div>
+          <span class="kicker kicker-yellow">04 REDEMITTEL &amp; DIALOGE</span>
+          <h2 class="section-title">買賣實用句型與課本實戰對話</h2>
+          <p class="section-desc">
+            熟練詢問價格、描述物品好壞與殺價的關鍵句型。可隨時隱藏中文翻譯進行口說模擬！
+          </p>
+        </div>
+      </div>
+
+      <!-- Phrase Cheat Sheet -->
+      <div class="two-col-asymmetric">
+        <div class="block block-white">
+          <div style="display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-md);">
+            <span class="dialog-role role-k">KÄUFER/IN</span>
+            <h3 style="margin:0; font-family:var(--font-headline);">買家常用句型</h3>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+            <div><strong class="de-word">Was / Wie viel kostet der / das / die ...?</strong><br><span class="muted">這個⋯⋯多少錢？</span></div>
+            <div><strong class="de-word">Das ist sehr teuer! / So viel?</strong><br><span class="muted">這好貴！／這麼多？</span></div>
+            <div><strong class="de-word">Das ist aber billig!</strong><br><span class="muted">這真便宜！</span></div>
+            <div><strong class="de-word">Ich zahle ... Euro.</strong><br><span class="muted">我出價⋯⋯歐元。</span></div>
+            <div><strong class="de-word">Funktioniert er / es / sie?</strong><br><span class="muted">它能正常運作嗎？（依名詞性別選代名詞）</span></div>
+            <div><strong class="de-word">Er / Es / Sie ist bestimmt kaputt.</strong><br><span class="muted">它肯定是壞掉的。</span></div>
+            <div><strong class="de-word">Gut, den / das / die nehme ich.</strong><br><span class="muted">好，我要買這個。（受格對應 der→den）</span></div>
+          </div>
+        </div>
+
+        <div class="block block-white">
+          <div style="display:flex; align-items:center; gap:var(--space-sm); margin-bottom:var(--space-md);">
+            <span class="dialog-role role-v">VERKÄUFER/IN</span>
+            <h3 style="margin:0; font-family:var(--font-headline);">賣家常用句型</h3>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+            <div><strong class="de-word">Nur ... Euro. / (Er/Es/Sie kostet) ... Euro.</strong><br><span class="muted">只要⋯⋯歐元。／它售價⋯⋯歐元。</span></div>
+            <div><strong class="de-word">Das ist kein/e ..., das ist ein/e ...</strong><br><span class="muted">這不是⋯⋯，這是⋯⋯</span></div>
+            <div><strong class="de-word">Aber er / es / sie ist fast neu.</strong><br><span class="muted">但它幾乎是全新的！</span></div>
+            <div><strong class="de-word">Nein, das ist sehr wenig!</strong><br><span class="muted">不行，這太少了！</span></div>
+            <div><strong class="de-word">Für Sie nur ... Euro. / Nur heute!</strong><br><span class="muted">算您⋯⋯歐元就好。／限今天特價！</span></div>
+            <div><strong class="de-word">Er / Es / Sie funktioniert prima!</strong><br><span class="muted">它運作得非常好！</span></div>
+            <div><strong class="de-word">Alles zusammen ... Euro. / Ein Schnäppchen!</strong><br><span class="muted">全部總共⋯⋯歐元。／真是划算的撿便宜！</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practice Controls & Roleplay Dialogues -->
+      <div class="block">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-md);">
+          <div>
+            <h3 style="margin:0; font-family:var(--font-headline);">課本精選情景對話卡片（中德雙語對照）</h3>
+            <p class="muted" style="margin:var(--space-xs) 0 0;">點擊下方開關切換練習模式，完成後點擊「標記已練習」納入進度。</p>
+          </div>
+          <div class="filter-group">
+            <button type="button" class="filter-btn active" id="toggle-zh-btn" onclick="toggleDialogZh()">顯示中文翻譯：開</button>
+            <button type="button" class="filter-btn" id="toggle-mask-btn" onclick="toggleDialogMask()">自我口說遮罩：關</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="dialogs-container" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap:var(--space-lg);"></div>
+
+      <div class="module-footer">
+        <button type="button" class="btn" onclick="switchTab('grammar')">← 上一模組：03 文法視覺化</button>
+        <button type="button" class="btn btn-primary" onclick="switchTab('quiz')">前往下一模組：05 互動自我檢測 →</button>
+      </div>
+    </section>
+
+    <!-- =======================================================
+         MODULE 5: INTERACTIVE QUIZZES
+         ======================================================= -->
+    <section id="panel-quiz" class="module-panel" aria-label="互動測驗">
+      <div class="section-open accent-blue">
+        <div>
+          <span class="kicker kicker-blue">05 INTERACTIVE QUIZZES</span>
+          <h2 class="section-title">第三章綜合自我檢測（共 20 題）</h2>
+          <p class="section-desc">
+            涵蓋冠詞詞性、代名詞替換、價格數字判讀與購物對話重組。作答完畢後點擊「送出批改」，即可查看分數與詳細錯題解析！
+          </p>
+        </div>
+      </div>
+
+      <!-- Quiz Result Summary Banner -->
+      <div class="block block-white" id="quiz-summary-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-md);">
+          <div>
+            <span class="kicker" id="quiz-status-badge">作答進行中</span>
+            <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline);" id="quiz-score-headline">尚未送出批改 — 共三大題 20 題</h3>
+            <p class="muted" style="margin:var(--space-xs) 0 0;" id="quiz-score-sub">請完成下方三個測驗區塊，最後按下「送出批改全部測驗」。</p>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+            <button type="button" class="btn btn-primary" onclick="gradeAllQuizzes()">送出批改全部測驗</button>
+            <button type="button" class="btn" onclick="resetAllQuizzes()">重新挑戰</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz 1: Articles & Gender -->
+      <div class="quiz-card">
+        <div>
+          <span class="kicker">QUIZ 01</span>
+          <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline);">測驗 1：商品冠詞與性別選擇題（8 題）</h3>
+          <p class="muted" style="margin:var(--space-xs) 0 0;">選出正確的定冠詞（der/das/die）、不定冠詞（ein/eine）、否定冠詞（kein/keine）或所有格（mein/dein）。</p>
+        </div>
+        <div id="quiz1-list" style="display:flex; flex-direction:column; gap:var(--space-md);"></div>
+      </div>
+
+      <!-- Quiz 2: Pronoun Substitution -->
+      <div class="quiz-card">
+        <div>
+          <span class="kicker">QUIZ 02</span>
+          <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline);">測驗 2：人稱代名詞替換填空（er / es / sie，6 題）</h3>
+          <p class="muted" style="margin:var(--space-xs) 0 0;">根據前句的名詞性別，選出正確的人稱代名詞填入空格。</p>
+        </div>
+        <div id="quiz2-list" style="display:flex; flex-direction:column; gap:var(--space-md);"></div>
+      </div>
+
+      <!-- Quiz 3: Price Reading & Dialogue Reordering -->
+      <div class="quiz-card">
+        <div>
+          <span class="kicker">QUIZ 03</span>
+          <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline);">測驗 3：看價格選數字 ＆ 購物對話重組（6 題）</h3>
+          <p class="muted" style="margin:var(--space-xs) 0 0;">前 4 題請選出價格對應的正確德語念法；後 2 題請用「▲ 上移 / ▼ 下移」調整打亂的對話順序。</p>
+        </div>
+        <div id="quiz3-list" style="display:flex; flex-direction:column; gap:var(--space-md);"></div>
+      </div>
+
+      <div class="block block-yellow" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-md);">
+        <strong>準備好檢視成績了嗎？</strong>
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+          <button type="button" class="btn" onclick="gradeAllQuizzes()">送出批改全部測驗</button>
+          <button type="button" class="btn" onclick="resetAllQuizzes()">全部清空重作</button>
+        </div>
+      </div>
+
+      <div class="module-footer">
+        <button type="button" class="btn" onclick="switchTab('dialogs')">← 上一模組：04 實用句型對話</button>
+        <button type="button" class="btn btn-primary" onclick="switchTab('vocab')">回到開頭複習單字 →</button>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <span>教材內容整理自《Berliner Platz 1 NEU》Kapitel 3 (Was kostet das?) 課本、練習本與文法重點</span>
+      <span>德國 A1 基礎互動學習網頁 · 繁體中文導學版</span>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    // =========================================================================
+    // DATA DEFINITIONS (All strings in backtick template literals)
+    // =========================================================================
+    const VOCAB_LIST = [
+      { id: `computer`, article: `der`, word: `Computer`, plural: `die Computer`, zh: `電腦`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Der Computer ist sehr teuer. Er kostet fast 300 Euro.`, exZh: `這台電腦很貴。它要價將近 300 歐元。`, compound: `` },
+      { id: `herd`, article: `der`, word: `Herd`, plural: `die Herde`, zh: `電爐／爐灶`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Der Herd kostet 140 Euro. Er ist fast neu.`, exZh: `這個電爐 140 歐元。它幾乎是全新的。`, compound: `` },
+      { id: `drucker`, article: `der`, word: `Drucker`, plural: `die Drucker`, zh: `印表機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Schau mal, der Drucker ist ja billig. Er kostet nur 5 Euro.`, exZh: `你看，這台印表機真便宜。它只要 5 歐元。`, compound: `` },
+      { id: `fernseher`, article: `der`, word: `Fernseher`, plural: `die Fernseher`, zh: `電視機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Ist das ein Fernseher? Nein, das ist ein Monitor.`, exZh: `這是一台電視嗎？不，這是一台螢幕。`, compound: `` },
+      { id: `wasserkocher`, article: `der`, word: `Wasserkocher`, plural: `die Wasserkocher`, zh: `電熱水壺`, cat: `Komposita`, catLabel: `複合名詞 · 電器`, exDe: `Der Wasserkocher funktioniert prima.`, exZh: `這個電熱水壺運作得很好。`, compound: `das Wasser (水) + der Kocher (煮水器)` },
+      { id: `bleistift`, article: `der`, word: `Bleistift`, plural: `die Bleistifte`, zh: `鉛筆`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Ist das dein Bleistift? Ja, das ist mein Bleistift.`, exZh: `這是你的鉛筆嗎？是的，這是我的鉛筆。`, compound: `` },
+      { id: `kuli`, article: `der`, word: `Kuli`, plural: `die Kulis`, zh: `原子筆（口語簡稱）`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Das ist mein Kuli. Der Kuli ist kaputt.`, exZh: `這是我的原子筆。這支筆壞掉了。`, compound: `完整寫法：der Kugelschreiber` },
+      { id: `kuehlschrank`, article: `der`, word: `Kühlschrank`, plural: `die Kühlschränke`, zh: `冰箱`, cat: `Komposita`, catLabel: `複合名詞 · 電器`, exDe: `Die Frau sucht einen Kühlschrank.`, exZh: `這位女士正在找一台冰箱。`, compound: `kühl (涼爽的) + der Schrank (櫃子)` },
+      { id: `staubsauger`, article: `der`, word: `Staubsauger`, plural: `die Staubsauger`, zh: `吸塵器`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Ist der Staubsauger neu? Nein, er ist gebraucht.`, exZh: `這台吸塵器是新的嗎？不是，它是二手的。`, compound: `der Staub (灰塵) + der Sauger (吸器)` },
+      { id: `stuhl`, article: `der`, word: `Stuhl`, plural: `die Stühle`, zh: `椅子`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Der Stuhl ist sehr modern und bequem.`, exZh: `這張椅子很摩登而且舒服。`, compound: `` },
+      { id: `tisch`, article: `der`, word: `Tisch`, plural: `die Tische`, zh: `桌子`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Das ist ein Tisch. Der Tisch ist modern.`, exZh: `這是一張桌子。這張桌子很現代感。`, compound: `` },
+      { id: `mp3`, article: `der`, word: `MP3-Player`, plural: `die MP3-Player`, zh: `MP3 播放器`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Der MP3-Player ist neu. Er ist teuer.`, exZh: `這台 MP3 播放器是新的。它很貴。`, compound: `` },
+      { id: `papierkorb`, article: `der`, word: `Papierkorb`, plural: `die Papierkörbe`, zh: `廢紙簍`, cat: `Komposita`, catLabel: `複合名詞 · 文具`, exDe: `Was kostet der Papierkorb? Vier Euro.`, exZh: `這個廢紙簍多少錢？四歐元。`, compound: `das Papier (紙) + der Korb (籃子)` },
+      { id: `kinderwagen`, article: `der`, word: `Kinderwagen`, plural: `die Kinderwagen`, zh: `嬰兒推車`, cat: `Komposita`, catLabel: `複合名詞 · 生活`, exDe: `Kinderwagen billig abzugeben, 95 Euro.`, exZh: `嬰兒推車便宜出讓，95 歐元。`, compound: `die Kinder (小孩) + der Wagen (車子)` },
+
+      { id: `handy`, article: `das`, word: `Handy`, plural: `die Handys`, zh: `手機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Das Handy kostet 100 Euro. Es ist fast neu.`, exZh: `這支手機 100 歐元。它幾乎是全新的。`, compound: `` },
+      { id: `buegeleisen`, article: `das`, word: `Bügeleisen`, plural: `die Bügeleisen`, zh: `熨斗`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Haben Sie ein Bügeleisen? Es kostet nur 8 Euro.`, exZh: `請問您有熨斗嗎？它只要 8 歐元。`, compound: `` },
+      { id: `woerterbuch`, article: `das`, word: `Wörterbuch`, plural: `die Wörterbücher`, zh: `字典`, cat: `Komposita`, catLabel: `複合名詞 · 文具`, exDe: `Ich möchte das Wörterbuch. Es kostet nur 3 Euro.`, exZh: `我想要這本字典。它只要 3 歐元。`, compound: `die Wörter (單字複數) + das Buch (書)` },
+      { id: `heft`, article: `das`, word: `Heft`, plural: `die Hefte`, zh: `筆記本／練習本`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Das Heft ist praktisch.`, exZh: `這本筆記本很實用。`, compound: `` },
+      { id: `fahrrad`, article: `das`, word: `Fahrrad`, plural: `die Fahrräder`, zh: `腳踏車`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Das Fahrrad kostet 139 Euro.`, exZh: `這台腳踏車 139 歐元。`, compound: `fahren (騎行) + das Rad (輪子)` },
+      { id: `buch`, article: `das`, word: `Buch`, plural: `die Bücher`, zh: `書本`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Das Buch kostet 25 Euro. Es ist sehr gut.`, exZh: `這本書 25 歐元。它非常棒。`, compound: `` },
+      { id: `radio`, article: `das`, word: `Radio`, plural: `die Radios`, zh: `收音機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Das Radio ist gebraucht, aber es funktioniert.`, exZh: `這台收音機是二手的，但還能運作。`, compound: `` },
+      { id: `auto`, article: `das`, word: `Auto`, plural: `die Autos`, zh: `汽車`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Das Auto kostet 3.800 Euro.`, exZh: `這輛汽車售價 3.800 歐元。`, compound: `` },
+      { id: `haus`, article: `das`, word: `Haus`, plural: `die Häuser`, zh: `房子`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Das Haus kostet 745.600 Euro.`, exZh: `這棟房子要價 745.600 歐元。`, compound: `` },
+      { id: `kinderbett`, article: `das`, word: `Kinderbett`, plural: `die Kinderbetten`, zh: `嬰兒床`, cat: `Komposita`, catLabel: `複合名詞 · 生活`, exDe: `Das Kinderbett kostet 30 Euro.`, exZh: `這張嬰兒床 30 歐元。`, compound: `die Kinder (小孩) + das Bett (床)` },
+
+      { id: `kaffeemaschine`, article: `die`, word: `Kaffeemaschine`, plural: `die Kaffeemaschinen`, zh: `咖啡機`, cat: `Komposita`, catLabel: `複合名詞 · 電器`, exDe: `Die Kaffeemaschine ist neu und sehr schön.`, exZh: `這台咖啡機是新的，非常漂亮。`, compound: `der Kaffee (咖啡) + die Maschine (機器)` },
+      { id: `lampe`, article: `die`, word: `Lampe`, plural: `die Lampen`, zh: `檯燈／燈具`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Die Lampe kaufe ich. Sie ist sehr schön.`, exZh: `這盞燈我買了。它非常好看。`, compound: `` },
+      { id: `schere`, article: `die`, word: `Schere`, plural: `die Scheren`, zh: `剪刀`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Ist das deine Schere? Ja, das ist meine Schere.`, exZh: `這是你的剪刀嗎？對，這是我的剪刀。`, compound: `` },
+      { id: `waschmaschine`, article: `die`, word: `Waschmaschine`, plural: `die Waschmaschinen`, zh: `洗衣機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Die Waschmaschine ist neu. Sie wäscht sehr gut.`, exZh: `這台洗衣機是新的。它洗得非常乾淨。`, compound: `waschen (洗) + die Maschine (機器)` },
+      { id: `digitalkamera`, article: `die`, word: `Digitalkamera`, plural: `die Digitalkameras`, zh: `數位相機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Ist das deine Digitalkamera? Sie ist super.`, exZh: `這是你的數位相機嗎？它超棒的。`, compound: `` },
+      { id: `brille`, article: `die`, word: `Brille`, plural: `die Brillen`, zh: `眼鏡`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Ich mag deine Brille. Sie ist super.`, exZh: `我喜歡你的眼鏡。它超好看。`, compound: `` },
+      { id: `uhr`, article: `die`, word: `Uhr`, plural: `die Uhren`, zh: `手錶／時鐘`, cat: `Alltag`, catLabel: `家具與生活`, exDe: `Funktioniert die Uhr? Nein, sie funktioniert nicht.`, exZh: `這個時鐘會動嗎？不，它不會動。`, compound: `` },
+      { id: `tasche`, article: `die`, word: `Tasche`, plural: `die Taschen`, zh: `包包／提袋`, cat: `Buero`, catLabel: `文具與書本`, exDe: `Nein, das ist nicht meine Tasche.`, exZh: `不，這不是我的包包。`, compound: `` },
+      { id: `spuelmaschine`, article: `die`, word: `Spülmaschine`, plural: `die Spülmaschinen`, zh: `洗碗機`, cat: `Elektro`, catLabel: `電器與科技`, exDe: `Spülmaschine, Schnäppchen: nur 50 €!`, exZh: `洗碗機，超值撿便宜：只要 50 歐元！`, compound: `spülen (沖洗) + die Maschine (機器)` },
+      { id: `teekanne`, article: `die`, word: `Teekanne`, plural: `die Teekannen`, zh: `茶壺`, cat: `Komposita`, catLabel: `複合名詞 · 生活`, exDe: `Ist das eine Kaffeekanne oder eine Teekanne?`, exZh: `這是咖啡壺還是茶壺？`, compound: `der Tee (茶) + die Kanne (壺)` }
+    ];
+
+    const COMPOUND_ITEMS = [
+      { p1: `das Wasser`, p2: `der Kocher`, res: `der Wasserkocher`, zh: `電熱水壺`, art: `der` },
+      { p1: `das Wort / Wörter`, p2: `das Buch`, res: `das Wörterbuch`, zh: `字典`, art: `das` },
+      { p1: `der Kaffee`, p2: `die Maschine`, res: `die Kaffeemaschine`, zh: `咖啡機`, art: `die` },
+      { p1: `das Kind / Kinder`, p2: `das Bett`, res: `das Kinderbett`, zh: `嬰兒床`, art: `das` },
+      { p1: `der Tee`, p2: `die Kanne`, res: `die Teekanne`, zh: `茶壺`, art: `die` },
+      { p1: `das Papier`, p2: `der Korb`, res: `der Papierkorb`, zh: `廢紙簍`, art: `der` },
+      { p1: `der Satellit`, p2: `die Antenne`, res: `die Satellitenantenne`, zh: `衛星天線`, art: `die` },
+      { p1: `liefern (運送)`, p2: `der Wagen`, res: `der Lieferwagen`, zh: `送貨車`, art: `der` }
+    ];
+
+    const FLOHMARKT_ITEMS = [
+      { id: `herd`, article: `der`, word: `Herd`, zh: `電爐`, ask: 140, min: 120, condDe: `Er ist fast neu und funktioniert super!`, condZh: `它幾乎是全新的，功能超好！`, pron: `er` },
+      { id: `lampe`, article: `die`, word: `Lampe`, zh: `檯燈`, ask: 20, min: 15, condDe: `Sie ist sehr schön und fast neu.`, condZh: `它非常漂亮而且幾乎全新。`, pron: `sie` },
+      { id: `waschmaschine`, article: `die`, word: `Waschmaschine`, zh: `洗衣機`, ask: 125, min: 115, condDe: `Sie ist 2 Jahre alt, aber funktioniert prima.`, condZh: `它用了兩年，但洗得非常好。`, pron: `sie` },
+      { id: `fernseher`, article: `der`, word: `Fernseher`, zh: `小電視機`, ask: 180, min: 140, condDe: `Er ist sehr klein, aber fast neu.`, condZh: `它很小巧，但幾乎是新的。`, pron: `er` },
+      { id: `kanne`, article: `die`, word: `Kaffeekanne`, zh: `保溫咖啡壺`, ask: 2, min: 2, condDe: `Das ist eine Thermoskanne. Sie funktioniert prima. Ein Schnäppchen!`, condZh: `這是一支保溫壺。它功能正常，真是撿到寶！`, pron: `sie` },
+      { id: `drucker`, article: `der`, word: `Drucker`, zh: `印表機`, ask: 5, min: 3, condDe: `Hmm, er ist sehr alt... vielleicht kaputt.`, condZh: `嗯，它非常舊了⋯⋯說不定壞掉了。`, pron: `er` }
+    ];
+
+    const GRAMMAR_NOUNS = [
+      { art: `der`, word: `Kuli`, zh: `原子筆`, indef: `ein`, neg: `kein`, mein: `mein`, dein: `dein`, pron: `Er`, accArt: `den` },
+      { art: `der`, word: `Fernseher`, zh: `電視機`, indef: `ein`, neg: `kein`, mein: `mein`, dein: `dein`, pron: `Er`, accArt: `den` },
+      { art: `das`, word: `Handy`, zh: `手機`, indef: `ein`, neg: `kein`, mein: `mein`, dein: `dein`, pron: `Es`, accArt: `das` },
+      { art: `das`, word: `Heft`, zh: `筆記本`, indef: `ein`, neg: `kein`, mein: `mein`, dein: `dein`, pron: `Es`, accArt: `das` },
+      { art: `die`, word: `Lampe`, zh: `檯燈`, indef: `eine`, neg: `keine`, mein: `meine`, dein: `deine`, pron: `Sie`, accArt: `die` },
+      { art: `die`, word: `Schere`, zh: `剪刀`, indef: `eine`, neg: `keine`, mein: `meine`, dein: `deine`, pron: `Sie`, accArt: `die` }
+    ];
+
+    const PRONOUN_SANDBOX_DATA = [
+      { id: `sb1`, art: `der`, noun: `Der Computer`, verb: `kostet fast 300 Euro.`, pron: `Er`, zh: `這台電腦將近 300 歐元。` },
+      { id: `sb2`, art: `das`, noun: `Das Handy`, verb: `ist fast neu.`, pron: `Es`, zh: `這支手機幾乎是全新的。` },
+      { id: `sb3`, art: `die`, noun: `Die Lampe`, verb: `ist sehr schön.`, pron: `Sie`, zh: `這盞燈非常漂亮。` },
+      { id: `sb4`, art: `die`, noun: `Deine Brille`, verb: `ist super.`, pron: `Sie`, zh: `你的眼鏡超好看。` },
+      { id: `sb5`, art: `der`, noun: `Der Kugelschreiber`, verb: `ist toll.`, pron: `Er`, zh: `這支原子筆很棒。` },
+      { id: `sb6`, art: `das`, noun: `Das Wörterbuch`, verb: `kostet nur 3 Euro.`, pron: `Es`, zh: `這本字典只要 3 歐元。` }
+    ];
+
+    const DIALOGS = [
+      {
+        id: `d1`,
+        title: `Dialog 1: Die Lampe（買檯燈）`,
+        priceTag: `20 €`,
+        lines: [
+          { role: `K`, name: `買家`, de: `Ich möchte die Lampe.`, zh: `我想要這盞檯燈。` },
+          { role: `V`, name: `賣家`, de: `Die Lampe?`, zh: `這盞檯燈嗎？` },
+          { role: `K`, name: `買家`, de: `Na, die da! Was kostet sie?`, zh: `對，就那盞！它多少錢？` },
+          { role: `V`, name: `賣家`, de: `Nur 20 Euro.`, zh: `只要 20 歐元。` },
+          { role: `K`, name: `買家`, de: `Das ist sehr teuer.`, zh: `這非常貴耶。` }
+        ]
+      },
+      {
+        id: `d2`,
+        title: `Dialog 2: Der Drucker（超便宜印表機）`,
+        priceTag: `5 €`,
+        lines: [
+          { role: `K`, name: `買家`, de: `Schau mal, der Drucker ist ja billig. Er kostet nur 5 Euro.`, zh: `你看，這台印表機真便宜。它只要 5 歐元。` },
+          { role: `V`, name: `同伴`, de: `Der ist bestimmt kaputt.`, zh: `那台肯定是壞掉的。` }
+        ]
+      },
+      {
+        id: `d3`,
+        title: `Dialog 3: Fernseher & Bügeleisen（議價）`,
+        priceTag: `140 €`,
+        lines: [
+          { role: `V`, name: `賣家`, de: `Der Fernseher kostet 180 € und das Bügeleisen nur 8.`, zh: `電視機 180 歐元，熨斗只要 8 歐元。` },
+          { role: `K`, name: `買家`, de: `Der Fernseher ist sehr klein. 180 ist sehr viel. 110 €?`, zh: `這台電視機很小。180 非常多耶。110 歐元好嗎？` },
+          { role: `V`, name: `賣家`, de: `Nein, das ist sehr wenig. Er ist fast neu.`, zh: `不行，那太少了。它幾乎是全新的。` },
+          { role: `K`, name: `買家`, de: `130.`, zh: `130 歐元。` },
+          { role: `V`, name: `賣家`, de: `140 €.`, zh: `140 歐元。` },
+          { role: `K`, name: `買家`, de: `O. k.`, zh: `好吧。` }
+        ]
+      },
+      {
+        id: `d4`,
+        title: `Dialog 4: Auf dem Flohmarkt（跳蚤市場撿便宜）`,
+        priceTag: `2 €`,
+        lines: [
+          { role: `K`, name: `買家`, de: `Ist das eine Kaffeekanne oder eine Teekanne?`, zh: `這是咖啡壺還是茶壺？` },
+          { role: `V`, name: `賣家`, de: `Das ist eine Kaffeekanne, eine Thermoskanne.`, zh: `這是一支咖啡壺，是保溫壺。` },
+          { role: `K`, name: `買家`, de: `Was kostet sie?`, zh: `它多少錢？` },
+          { role: `V`, name: `賣家`, de: `Nur zwei Euro!`, zh: `只要兩歐元！` },
+          { role: `K`, name: `買家`, de: `Das ist aber billig! Funktioniert sie?`, zh: `這真便宜！它還正常嗎？` },
+          { role: `V`, name: `賣家`, de: `Ja, ein Schnäppchen... Na klar!`, zh: `對，超划算⋯⋯當然沒問題！` }
+        ]
+      },
+      {
+        id: `d5`,
+        title: `Dialog 5: Monitor oder Fernseher?（螢幕還是電視？）`,
+        priceTag: `35 €`,
+        lines: [
+          { role: `K`, name: `買家`, de: `Ist das ein Fernseher?`, zh: `這是一台電視嗎？` },
+          { role: `V`, name: `賣家`, de: `Nein, das ist kein Fernseher. Das ist ein Monitor.`, zh: `不是，這不是電視。這是一台電腦螢幕。` },
+          { role: `K`, name: `買家`, de: `Wie viel kostet er?`, zh: `它多少錢？` },
+          { role: `V`, name: `賣家`, de: `35 Euro.`, zh: `35 歐元。` }
+        ]
+      }
+    ];
+
+    const QUIZ1_DATA = [
+      { id: `q1_1`, prompt: `___ Computer kostet fast 300 Euro.`, opts: [`Der`, `Das`, `Die`], ans: `Der`, exp: `Computer（電腦）為陽性名詞，定冠詞是 der。` },
+      { id: `q1_2`, prompt: `Ist das ___ Handy? — Ja, das ist mein Handy.`, opts: [`ein`, `eine`, `einen`], ans: `ein`, exp: `Handy（手機）為中性名詞（das Handy），主格不定冠詞是 ein。` },
+      { id: `q1_3`, prompt: `Nein, das ist ___ Lampe, das ist eine Kaffeemaschine.`, opts: [`kein`, `keine`, `nicht`], ans: `keine`, exp: `Lampe（燈）為陰性名詞（die Lampe），否定名詞必須使用陰性否定冠詞 keine。` },
+      { id: `q1_4`, prompt: `Ist das ___ Schere? — Ja, das ist meine Schere.`, opts: [`dein`, `deine`, `der`], ans: `deine`, exp: `Schere（剪刀）為陰性名詞（die Schere），所有格需加字尾 -e 成為 deine。` },
+      { id: `q1_5`, prompt: `___ Bügeleisen kostet nur 8 Euro.`, opts: [`Der`, `Das`, `Die`], ans: `Das`, exp: `Bügeleisen（熨斗）為中性名詞（das Bügeleisen）。` },
+      { id: `q1_6`, prompt: `___ Waschmaschine funktioniert prima.`, opts: [`Der`, `Das`, `Die`], ans: `Die`, exp: `Waschmaschine（洗衣機）為陰性名詞（die Waschmaschine），所有以 -maschine 結尾的名詞皆為陰性。` },
+      { id: `q1_7`, prompt: `Ist das ein Fernseher? — Nein, das ist ___ Fernseher. Das ist ein Monitor.`, opts: [`kein`, `keine`, `ein`], ans: `kein`, exp: `Fernseher（電視機）為陽性名詞（der Fernseher），主格否定冠詞為 kein。` },
+      { id: `q1_8`, prompt: `Das ist ___ Bleistift.`, opts: [`mein`, `meine`, `eine`], ans: `mein`, exp: `Bleistift（鉛筆）為陽性名詞（der Bleistift），主格所有格不加 -e，為 mein。` }
+    ];
+
+    const QUIZ2_DATA = [
+      { id: `q2_1`, prompt: `Der Herd ist alt, aber ___ funktioniert super.`, opts: [`er`, `es`, `sie`], ans: `er`, exp: `der Herd 為陽性名詞，因此人稱代名詞替換為 er。` },
+      { id: `q2_2`, prompt: `Das Wörterbuch kostet 3 Euro. ___ ist billig.`, opts: [`Er`, `Es`, `Sie`], ans: `Es`, exp: `das Wörterbuch 為中性名詞，因此替換為 Es。` },
+      { id: `q2_3`, prompt: `Die Kaffeemaschine ist neu. ___ ist praktisch.`, opts: [`Er`, `Es`, `Sie`], ans: `Sie`, exp: `die Kaffeemaschine 為陰性名詞，因此替換為 Sie。` },
+      { id: `q2_4`, prompt: `Ich mag deine Brille. ___ ist super.`, opts: [`Er`, `Es`, `Sie`], ans: `Sie`, exp: `die Brille（眼鏡，deine Brille）為陰性單數名詞，因此替換為 Sie。` },
+      { id: `q2_5`, prompt: `Dein Kugelschreiber ist toll. Wie teuer ist ___?`, opts: [`er`, `es`, `sie`], ans: `er`, exp: `der Kugelschreiber（原子筆）為陽性名詞，因此用 er 代替。` },
+      { id: `q2_6`, prompt: `Das Fahrrad kostet 139 Euro. ___ ist fast neu.`, opts: [`Er`, `Es`, `Sie`], ans: `Es`, exp: `das Fahrrad（腳踏車）為中性名詞，因此用 Es 代替。` }
+    ];
+
+    const QUIZ3_PRICE_DATA = [
+      {
+        id: `q3_1`,
+        prompt: `請選出「139 €」的正確德語念法：`,
+        opts: [`einhundertneununddreißig Euro`, `einhundertdreißigundneun Euro`, `eintausendneununddreißig Euro`],
+        ans: `einhundertneununddreißig Euro`,
+        exp: `139 拆解為 einhundert (100) + neununddreißig (39，先個位 9 再十位 30)。`
+      },
+      {
+        id: `q3_2`,
+        prompt: `請選出「2.312 €」的正確德語念法：`,
+        opts: [`zweitausenddreihundertzwanzig Euro`, `zweitausenddreihundertzwölf Euro`, `zweihundertdreitausendzwölf Euro`],
+        ans: `zweitausenddreihundertzwölf Euro`,
+        exp: `2.312 = zweitausend (2000) + dreihundert (300) + zwölf (12)。注意德語用「.」分隔千位。`
+      },
+      {
+        id: `q3_3`,
+        prompt: `請選出「8,50 €」的正確德語念法：`,
+        opts: [`achtzig Euro fünf`, `acht Euro fünfzig`, `acht Komma fünf Euro`],
+        ans: `acht Euro fünfzig`,
+        exp: `價格 8,50 € 口語直接念作 acht Euro fünfzig（用 Euro 隔開元與分）。`
+      },
+      {
+        id: `q3_4`,
+        prompt: `請選出「745.600 €」的正確德語念法：`,
+        opts: [`siebenhundertfünfundvierzigtausendsechshundert Euro`, `siebenhundertsiebenundvierzigtausendsechshundert Euro`, `sieben Millionen vierhundertfünfzigtausend Euro`],
+        ans: `siebenhundertfünfundvierzigtausendsechshundert Euro`,
+        exp: `745 個千 = siebenhundertfünfundvierzigtausend，加上 sechshundert (600)。`
+      }
+    ];
+
+    const QUIZ3_REORDER_DATA = [
+      {
+        id: `q3_5`,
+        title: `對話重組 A：購買字典（課本／練習本 Dialog 1）`,
+        correctOrder: [
+          `Ich möchte das Wörterbuch.`,
+          `Das Wörterbuch?`,
+          `Na, das da! Was kostet es?`,
+          `Nur drei Euro.`,
+          `O. k.`
+        ],
+        initialScrambled: [
+          `Nur drei Euro.`,
+          `Ich möchte das Wörterbuch.`,
+          `O. k.`,
+          `Na, das da! Was kostet es?`,
+          `Das Wörterbuch?`
+        ],
+        exp: `正確順序：表達想買物品 (Ich möchte das Wörterbuch.) → 賣家確認 (Das Wörterbuch?) → 指認並問價 (Na, das da! Was kostet es?) → 報價 (Nur drei Euro.) → 同意成交 (O. k.)。`
+      },
+      {
+        id: `q3_6`,
+        title: `對話重組 B：電爐議價（練習本 Dialog 2）`,
+        correctOrder: [
+          `Der Herd kostet 140 Euro.`,
+          `140? Das ist sehr viel. 100 Euro?`,
+          `Was? Er ist fast neu.`,
+          `120.`,
+          `Mhmm – o. k.`
+        ],
+        initialScrambled: [
+          `Was? Er ist fast neu.`,
+          `Der Herd kostet 140 Euro.`,
+          `120.`,
+          `Mhmm – o. k.`,
+          `140? Das ist sehr viel. 100 Euro?`
+        ],
+        exp: `正確順序：開價 140 → 買家喊太貴殺到 100 → 賣家強調幾乎全新 → 買家加價到 120 → 賣家點頭同意 (Mhmm – o. k.)。`
+      }
+    ];
+
+    // =========================================================================
+    // STATE MANAGEMENT
+    // =========================================================================
+    const DEFAULT_STATE = {
+      activeTab: `vocab`,
+      masteredWords: [],
+      exploredNumbers: false,
+      exploredFlohmarkt: [],
+      exploredGrammar: false,
+      practicedDialogs: [],
+      quizAnswers: {},
+      reorderState: {
+        q3_5: QUIZ3_REORDER_DATA[0].initialScrambled.slice(),
+        q3_6: QUIZ3_REORDER_DATA[1].initialScrambled.slice()
+      },
+      quizSubmitted: false,
+      bestQuizScore: null
+    };
+
+    let appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    let currentGenderFilter = `all`;
+    let onlyUnmastered = false;
+    let spotlightIndex = 0;
+    let spotlightFlipped = false;
+    let flippedCardIds = {};
+    let currentNumberMode = `price`;
+    let currentFlohItemIdx = 0;
+    let currentFlohAsk = 140;
+    let flohDealReached = false;
+    let flohLogs = [];
+    let selectedArticleKey = `def`;
+    let sandboxFlippedIds = {};
+    let showDialogZh = true;
+    let maskDialogLines = false;
+
+    async function loadAppState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), saved);
+            if (!appState.reorderState || !appState.reorderState.q3_5) {
+              appState.reorderState = JSON.parse(JSON.stringify(DEFAULT_STATE.reorderState));
+            }
+          }
+        } catch (err) {
+          // Safe fallback to defaults
+        }
+      }
+    }
+
+    async function saveAppState() {
+      updateProgressUI();
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState(appState);
+        } catch (err) {
+          // Ignore persistence errors silently
+        }
+      }
+    }
+
+    function updateProgressUI() {
+      const vocabRatio = Math.min(1, (appState.masteredWords || []).length / VOCAB_LIST.length);
+      const numScore = (appState.exploredNumbers ? 0.5 : 0) + Math.min(0.5, ((appState.exploredFlohmarkt || []).length / 2) * 0.5);
+      const gramScore = appState.exploredGrammar ? 1 : 0;
+      const dialogRatio = Math.min(1, (appState.practicedDialogs || []).length / DIALOGS.length);
+      const quizScoreRatio = appState.bestQuizScore !== null ? Math.max(0.4, appState.bestQuizScore / 20) : 0;
+
+      const totalPct = Math.round(
+        vocabRatio * 30 +
+        numScore * 20 +
+        gramScore * 15 +
+        dialogRatio * 15 +
+        quizScoreRatio * 20
+      );
+
+      const pctEl = document.getElementById(`progress-pct-text`);
+      const fillEl = document.getElementById(`progress-fill`);
+      const ariaEl = document.getElementById(`progress-bar-aria`);
+      const statVocab = document.getElementById(`stat-vocab`);
+      const statDialogs = document.getElementById(`stat-dialogs`);
+      const statQuiz = document.getElementById(`stat-quiz`);
+
+      if (pctEl) pctEl.textContent = `${totalPct}%`;
+      if (fillEl) fillEl.style.width = `${totalPct}%`;
+      if (ariaEl) ariaEl.setAttribute(`aria-valuenow`, String(totalPct));
+      if (statVocab) statVocab.textContent = `${(appState.masteredWords || []).length} / ${VOCAB_LIST.length}`;
+      if (statDialogs) statDialogs.textContent = `${(appState.practicedDialogs || []).length} / ${DIALOGS.length}`;
+      if (statQuiz) {
+        statQuiz.textContent = appState.bestQuizScore !== null ? `${appState.bestQuizScore} / 20` : `未作答`;
+      }
+    }
+
+    function handleResetProgress(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `再點一次確認重設`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `重設學習紀錄`;
+      appState = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      flippedCardIds = {};
+      sandboxFlippedIds = {};
+      saveAppState();
+      renderAll();
+    }
+
+    // =========================================================================
+    // TAB NAVIGATION
+    // =========================================================================
+    function switchTab(tabId) {
+      appState.activeTab = tabId;
+      const tabs = document.querySelectorAll(`.nav-tab`);
+      tabs.forEach(function(btn) {
+        if (btn.dataset.tab === tabId) {
+          btn.classList.add(`active`);
+        } else {
+          btn.classList.remove(`active`);
+        }
+      });
+      const panels = document.querySelectorAll(`.module-panel`);
+      panels.forEach(function(p) {
+        p.classList.remove(`active`);
+      });
+      const target = document.getElementById(`panel-${tabId}`);
+      if (target) {
+        target.classList.add(`active`);
+      }
+      if (tabId === `grammar` && !appState.exploredGrammar) {
+        appState.exploredGrammar = true;
+      }
+      saveAppState();
+      window.scrollTo({ top: 0, behavior: `smooth` });
+    }
+
+    // =========================================================================
+    // MODULE 1: WORTSCHATZ & FLASHCARDS
+    // =========================================================================
+    function getGenderClass(art) {
+      if (art === `der`) return `gender-der`;
+      if (art === `das`) return `gender-das`;
+      return `gender-die`;
+    }
+
+    function renderSpotlight() {
+      const item = VOCAB_LIST[spotlightIndex] || VOCAB_LIST[0];
+      const badge = document.getElementById(`spot-badge`);
+      const cat = document.getElementById(`spot-cat`);
+      const de = document.getElementById(`spot-de`);
+      const pl = document.getElementById(`spot-pl`);
+      const zh = document.getElementById(`spot-zh`);
+      const exDe = document.getElementById(`spot-ex-de`);
+      const exZh = document.getElementById(`spot-ex-zh`);
+      const comp = document.getElementById(`spot-compound`);
+      const front = document.getElementById(`spot-front`);
+      const back = document.getElementById(`spot-back`);
+      const card = document.getElementById(`spotlight-card`);
+      const counter = document.getElementById(`deck-counter`);
+      const masterBtn = document.getElementById(`spot-master-btn`);
+
+      if (!item || !badge || !front || !back) return;
+
+      badge.className = `gender-pill ${getGenderClass(item.article)}`;
+      badge.textContent = item.article;
+      if (cat) cat.textContent = item.catLabel;
+      if (de) de.textContent = `${item.article} ${item.word}`;
+      if (pl) pl.textContent = `複數：${item.plural}`;
+      if (zh) zh.textContent = `${item.zh}（${item.article} ${item.word}）`;
+      if (exDe) exDe.textContent = item.exDe;
+      if (exZh) exZh.textContent = item.exZh;
+      if (comp) {
+        comp.textContent = item.compound ? `結構解析：${item.compound}` : ``;
+      }
+      if (counter) counter.textContent = `第 ${spotlightIndex + 1} / ${VOCAB_LIST.length} 張`;
+
+      if (spotlightFlipped) {
+        front.classList.add(`hidden`);
+        back.classList.remove(`hidden`);
+        if (card) card.classList.add(`flipped`);
+      } else {
+        front.classList.remove(`hidden`);
+        back.classList.add(`hidden`);
+        if (card) card.classList.remove(`flipped`);
+      }
+
+      const isMastered = (appState.masteredWords || []).includes(item.id);
+      if (masterBtn) {
+        masterBtn.textContent = isMastered ? `✓ 已熟練（點擊取消）` : `標記已熟練`;
+        masterBtn.className = isMastered ? `btn btn-blue` : `btn btn-primary`;
+      }
+    }
+
+    function flipSpotlight() {
+      spotlightFlipped = !spotlightFlipped;
+      renderSpotlight();
+    }
+
+    function nextSpotlight() {
+      spotlightIndex = (spotlightIndex + 1) % VOCAB_LIST.length;
+      spotlightFlipped = false;
+      renderSpotlight();
+    }
+
+    function prevSpotlight() {
+      spotlightIndex = (spotlightIndex - 1 + VOCAB_LIST.length) % VOCAB_LIST.length;
+      spotlightFlipped = false;
+      renderSpotlight();
+    }
+
+    function randomSpotlight() {
+      const next = Math.floor(Math.random() * VOCAB_LIST.length);
+      spotlightIndex = next;
+      spotlightFlipped = false;
+      renderSpotlight();
+    }
+
+    function toggleSpotlightMastered() {
+      const item = VOCAB_LIST[spotlightIndex];
+      if (!item) return;
+      toggleWordMastered(item.id);
+    }
+
+    function toggleWordMastered(wordId) {
+      if (!Array.isArray(appState.masteredWords)) appState.masteredWords = [];
+      const idx = appState.masteredWords.indexOf(wordId);
+      if (idx === -1) {
+        appState.masteredWords.push(wordId);
+      } else {
+        appState.masteredWords.splice(idx, 1);
+      }
+      saveAppState();
+      renderSpotlight();
+      renderVocabGrid();
+    }
+
+    function setGenderFilter(g) {
+      currentGenderFilter = g;
+      const btns = document.querySelectorAll(`[data-gender]`);
+      btns.forEach(function(b) {
+        if (b.dataset.gender === g) b.classList.add(`active`);
+        else b.classList.remove(`active`);
+      });
+      renderVocabGrid();
+    }
+
+    function toggleUnmasteredFilter() {
+      onlyUnmastered = !onlyUnmastered;
+      const btn = document.getElementById(`unmastered-filter-btn`);
+      if (btn) {
+        if (onlyUnmastered) btn.classList.add(`active`);
+        else btn.classList.remove(`active`);
+      }
+      renderVocabGrid();
+    }
+
+    function getFilteredVocab() {
+      const searchEl = document.getElementById(`vocab-search`);
+      const catEl = document.getElementById(`vocab-cat-select`);
+      const q = searchEl ? searchEl.value.trim().toLowerCase() : ``;
+      const cat = catEl ? catEl.value : `all`;
+
+      return VOCAB_LIST.filter(function(item) {
+        if (currentGenderFilter !== `all` && item.article !== currentGenderFilter) return false;
+        if (cat !== `all` && item.cat !== cat) return false;
+        if (onlyUnmastered && (appState.masteredWords || []).includes(item.id)) return false;
+        if (q) {
+          const matchDe = `${item.article} ${item.word}`.toLowerCase().includes(q);
+          const matchZh = item.zh.toLowerCase().includes(q);
+          if (!matchDe && !matchZh) return false;
+        }
+        return true;
+      });
+    }
+
+    function flipVocabCard(id) {
+      flippedCardIds[id] = !flippedCardIds[id];
+      renderVocabGrid();
+    }
+
+    function flipAllVisibleCards() {
+      const list = getFilteredVocab();
+      const anyUnflipped = list.some(function(i) { return !flippedCardIds[i.id]; });
+      list.forEach(function(i) {
+        flippedCardIds[i.id] = anyUnflipped;
+      });
+      renderVocabGrid();
+    }
+
+    function renderVocabGrid() {
+      const grid = document.getElementById(`vocab-grid`);
+      const label = document.getElementById(`vocab-count-label`);
+      if (!grid) return;
+
+      const list = getFilteredVocab();
+      if (label) {
+        label.textContent = `目前顯示 ${list.length} 個單字（點擊卡片中間即可翻轉）`;
+      }
+
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="block" style="grid-column: 1 / -1;"><p style="margin:0;"><strong>找不到符合條件的單字。</strong>請清除搜尋條件或切換性別分類。</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = list.map(function(item) {
+        const isFlipped = Boolean(flippedCardIds[item.id]);
+        const isMastered = (appState.masteredWords || []).includes(item.id);
+        return `
+          <article class="vocab-card ${isFlipped ? `is-flipped` : ``} ${isMastered ? `is-mastered` : ``}">
+            <div class="vocab-card-top">
+              <span class="gender-pill ${getGenderClass(item.article)}">${item.article}</span>
+              <span class="vocab-card-cat">${item.catLabel}</span>
+            </div>
+            <div class="vocab-card-body" role="button" tabindex="0" onclick="flipVocabCard('${item.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();flipVocabCard('${item.id}');}">
+              ${isFlipped ? `
+                <div class="vocab-zh">${item.zh}</div>
+                <div class="vocab-ex">
+                  <div class="de-word" style="font-weight:600; color:var(--on-surface);">${item.exDe}</div>
+                  <div style="margin-top:2px;">${item.exZh}</div>
+                </div>
+                ${item.compound ? `<div class="muted" style="font-size:0.8rem; margin-top:var(--space-xs);">${item.compound}</div>` : ``}
+              ` : `
+                <div class="vocab-de">${item.article} ${item.word}</div>
+                <div class="vocab-pl">複數：${item.plural}</div>
+              `}
+            </div>
+            <div class="vocab-card-foot">
+              <button type="button" class="btn btn-sm" onclick="flipVocabCard('${item.id}')">${isFlipped ? `看德語` : `翻看中文`}</button>
+              <button type="button" class="btn btn-sm ${isMastered ? `btn-blue` : ``}" onclick="toggleWordMastered('${item.id}')">${isMastered ? `✓ 已熟練` : `標記熟練`}</button>
+            </div>
+          </article>
+        `;
+      }).join(``);
+    }
+
+    function renderCompoundGrid() {
+      const container = document.getElementById(`compound-grid`);
+      if (!container) return;
+      container.innerHTML = COMPOUND_ITEMS.map(function(c) {
+        return `
+          <div class="compound-item">
+            <div class="muted" style="font-size:0.85rem;">${c.p1} + <strong>${c.p2}</strong></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+              <strong class="de-word">${c.res}</strong>
+              <span class="gender-pill ${getGenderClass(c.art)}">${c.zh}</span>
+            </div>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    // =========================================================================
+    // MODULE 2: GERMAN NUMBER & PRICE CONVERTER + FLOHMARKT
+    // =========================================================================
+    function numberToGermanUnder1000(n, isStandaloneOne) {
+      if (n === 0) return `null`;
+      const units = [``, `eins`, `zwei`, `drei`, `vier`, `fünf`, `sechs`, `sieben`, `acht`, `neun`, `zehn`, `elf`, `zwölf`, `dreizehn`, `vierzehn`, `fünfzehn`, `sechzehn`, `siebzehn`, `achtzehn`, `neunzehn`];
+      const tens = [``, ``, `zwanzig`, `dreißig`, `vierzig`, `fünfzig`, `sechzig`, `siebzig`, `achtzig`, `neunzig`];
+      let res = ``;
+      const hundreds = Math.floor(n / 100);
+      const rem = n % 100;
+      if (hundreds > 0) {
+        res += (hundreds === 1 ? `ein` : units[hundreds]) + `hundert`;
+      }
+      if (rem > 0) {
+        if (rem < 20) {
+          if (rem === 1 && !isStandaloneOne) {
+            res += `ein`;
+          } else {
+            res += units[rem];
+          }
+        } else {
+          const u = rem % 10;
+          const t = Math.floor(rem / 10);
+          if (u > 0) {
+            res += (u === 1 ? `ein` : units[u]) + `und` + tens[t];
+          } else {
+            res += tens[t];
+          }
+        }
+      }
+      return res;
+    }
+
+    function intToGerman(num) {
+      if (num === 0) return `null`;
+      if (num > 99999999) return `數字超出範圍`;
+      const millions = Math.floor(num / 1000000);
+      const thousands = Math.floor((num % 1000000) / 1000);
+      const rest = num % 1000;
+      const parts = [];
+      if (millions > 0) {
+        if (millions === 1) {
+          parts.push(`eine Million`);
+        } else {
+          parts.push(`${intToGerman(millions)} Millionen`);
+        }
+      }
+      let tail = ``;
+      if (thousands > 0) {
+        if (thousands === 1) {
+          tail += `eintausend`;
+        } else {
+          tail += numberToGermanUnder1000(thousands, false) + `tausend`;
+        }
+      }
+      if (rest > 0) {
+        tail += numberToGermanUnder1000(rest, true);
+      }
+      if (tail) parts.push(tail);
+      return parts.join(` `);
+    }
+
+    function formatDotThousands(n) {
+      return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, `.`);
+    }
+
+    function buildBreakdownText(intPart, centsPart, mode) {
+      if (mode === `price` && centsPart !== null) {
+        const euroWord = intPart === 1 ? `ein` : intToGerman(intPart);
+        const centWord = centsPart === 1 ? `ein` : intToGerman(centsPart);
+        if (intPart === 0) {
+          return `拆解結構：${centsPart} Cent（不到一歐元時直接念幾分 Cent）`;
+        }
+        return `拆解結構：${intPart} (${euroWord}) + Euro + ${String(centsPart).padStart(2, `0`)} (${centWord})`;
+      }
+      if (intPart >= 1000000) {
+        const mil = Math.floor(intPart / 1000000);
+        const rem = intPart % 1000000;
+        return `拆解結構：${mil === 1 ? `eine Million (一百萬)` : `${mil} Millionen`} ${rem > 0 ? `+ ${formatDotThousands(rem)}` : ``}`;
+      }
+      if (intPart >= 1000) {
+        const th = Math.floor(intPart / 1000);
+        const rem = intPart % 1000;
+        return `拆解結構：${th} tausend ${rem > 0 ? `+ ${rem} (${intToGerman(rem)})` : ``}`;
+      }
+      if (intPart >= 21 && intPart <= 99 && intPart % 10 !== 0) {
+        const u = intPart % 10;
+        const t = Math.floor(intPart / 10) * 10;
+        return `拆解結構：先念個位 ${u === 1 ? `ein` : intToGerman(u)} (${u}) + und + 十位 ${intToGerman(t)} (${t})`;
+      }
+      return `拆解結構：標準基礎數字 ${intToGerman(intPart)}`;
+    }
+
+    function setNumberMode(mode) {
+      currentNumberMode = mode;
+      const pBtn = document.getElementById(`mode-price-btn`);
+      const nBtn = document.getElementById(`mode-plain-btn`);
+      if (pBtn && nBtn) {
+        if (mode === `price`) {
+          pBtn.classList.add(`active`);
+          nBtn.classList.remove(`active`);
+        } else {
+          nBtn.classList.add(`active`);
+          pBtn.classList.remove(`active`);
+        }
+      }
+      updateNumberConverter();
+    }
+
+    function applyNumberPreset(val, mode) {
+      const input = document.getElementById(`num-input`);
+      if (input) input.value = val;
+      setNumberMode(mode);
+      if (!appState.exploredNumbers) {
+        appState.exploredNumbers = true;
+        saveAppState();
+      }
+    }
+
+    function updateNumberConverter() {
+      const input = document.getElementById(`num-input`);
+      const formattedEl = document.getElementById(`num-formatted`);
+      const germanEl = document.getElementById(`num-german`);
+      const breakdownEl = document.getElementById(`num-breakdown`);
+      if (!input || !formattedEl || !germanEl || !breakdownEl) return;
+
+      let raw = input.value.trim().replace(/\s+/g, ``);
+      if (!raw) {
+        formattedEl.textContent = `—`;
+        germanEl.textContent = `請輸入數字`;
+        breakdownEl.textContent = `支援 0 至 10.000.000 的整數或歐元價格（例如 8,50）`;
+        return;
+      }
+
+      // Detect decimal comma or trailing dot with 1-2 digits in price mode
+      let intPart = 0;
+      let centsPart = null;
+      if (raw.includes(`,`)) {
+        const segs = raw.split(`,`);
+        const cleanInt = segs[0].replace(/\./g, ``).replace(/[^\d]/g, ``);
+        const cleanDec = (segs[1] || `0`).replace(/[^\d]/g, ``).slice(0, 2);
+        intPart = parseInt(cleanInt || `0`, 10);
+        centsPart = parseInt(cleanDec.padEnd(2, `0`), 10);
+      } else if (currentNumberMode === `price` && /^\d+\.\d{1,2}$/.test(raw)) {
+        const segs = raw.split(`.`);
+        intPart = parseInt(segs[0], 10);
+        centsPart = parseInt(segs[1].padEnd(2, `0`), 10);
+      } else {
+        const cleanInt = raw.replace(/\./g, ``).replace(/[^\d]/g, ``);
+        intPart = parseInt(cleanInt || `0`, 10);
+      }
+
+      if (isNaN(intPart) || intPart > 10000000) {
+        formattedEl.textContent = `超出範圍`;
+        germanEl.textContent = `請輸入 10.000.000 以下的數字`;
+        breakdownEl.textContent = `本單元重點範圍為 0 到 1.000.000（最高支援至一千萬）。`;
+        return;
+      }
+
+      if (currentNumberMode === `price`) {
+        if (centsPart !== null && centsPart > 0) {
+          formattedEl.textContent = `${formatDotThousands(intPart)},${String(centsPart).padStart(2, `0`)} €`;
+          if (intPart === 0) {
+            const cWord = centsPart === 1 ? `ein Cent` : `${intToGerman(centsPart)} Cent`;
+            germanEl.textContent = cWord;
+          } else {
+            const eWord = intPart === 1 ? `ein Euro` : `${intToGerman(intPart)} Euro`;
+            const cWord = centsPart === 1 ? `eins` : intToGerman(centsPart);
+            germanEl.textContent = `${eWord} ${cWord}`;
+          }
+        } else {
+          formattedEl.textContent = `${formatDotThousands(intPart)} €`;
+          germanEl.textContent = intPart === 1 ? `ein Euro` : `${intToGerman(intPart)} Euro`;
+        }
+      } else {
+        formattedEl.textContent = formatDotThousands(intPart);
+        germanEl.textContent = intToGerman(intPart);
+      }
+
+      breakdownEl.textContent = buildBreakdownText(intPart, centsPart, currentNumberMode);
+    }
+
+    function speakCurrentNumber() {
+      const germanEl = document.getElementById(`num-german`);
+      const fb = document.getElementById(`tts-feedback`);
+      if (!germanEl) return;
+      const text = germanEl.textContent;
+      if (`speechSynthesis` in window && typeof SpeechSynthesisUtterance !== `undefined`) {
+        try {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = `de-DE`;
+          utter.rate = 0.88;
+          window.speechSynthesis.speak(utter);
+          if (fb) fb.textContent = `正在以德語朗讀：「${text}」`;
+        } catch (err) {
+          if (fb) fb.textContent = `目前瀏覽器環境不支援語音播放，請參考上方標準德語拼寫。`;
+        }
+      } else {
+        if (fb) fb.textContent = `目前瀏覽器環境不支援語音合成，請對照上方標準德語拼寫朗讀。`;
+      }
+      if (!appState.exploredNumbers) {
+        appState.exploredNumbers = true;
+        saveAppState();
+      }
+    }
+
+    // Flohmarkt Simulator
+    function renderFlohmarktStall() {
+      const stall = document.getElementById(`flohmarkt-stall`);
+      const badge = document.getElementById(`flohmarkt-deals-badge`);
+      if (badge) {
+        badge.textContent = `已成交商品：${(appState.exploredFlohmarkt || []).length} / ${FLOHMARKT_ITEMS.length} 件`;
+      }
+      if (!stall) return;
+      stall.innerHTML = FLOHMARKT_ITEMS.map(function(item, idx) {
+        const bought = (appState.exploredFlohmarkt || []).includes(item.id);
+        return `
+          <button type="button" class="stall-item ${idx === currentFlohItemIdx ? `selected` : ``}" onclick="selectFlohItem(${idx})">
+            <span class="gender-pill ${getGenderClass(item.article)}" style="align-self:flex-start;">${item.article}</span>
+            <strong class="de-word">${item.word}</strong>
+            <span class="muted" style="font-size:0.85rem;">${item.zh} · ${item.ask} € ${bought ? `✓` : ``}</span>
+          </button>
+        `;
+      }).join(``);
+    }
+
+    function selectFlohItem(idx) {
+      currentFlohItemIdx = idx;
+      const item = FLOHMARKT_ITEMS[idx];
+      currentFlohAsk = item.ask;
+      flohDealReached = false;
+      flohLogs = [
+        { who: `seller`, de: `Hallo! Möchten Sie ${item.article === `der` ? `den` : item.article} ${item.word}?`, zh: `哈囉！您想要這件 ${item.zh} 嗎？` }
+      ];
+
+      const badge = document.getElementById(`floh-gender-badge`);
+      const nameEl = document.getElementById(`floh-item-name`);
+      const zhEl = document.getElementById(`floh-item-zh`);
+      const priceEl = document.getElementById(`floh-ask-price`);
+      const slider = document.getElementById(`floh-slider`);
+      const num = document.getElementById(`floh-number`);
+      const accBtn = document.getElementById(`floh-accept-btn`);
+
+      if (badge) {
+        badge.className = `gender-pill ${getGenderClass(item.article)}`;
+        badge.textContent = item.article;
+      }
+      if (nameEl) nameEl.textContent = `${item.article} ${item.word}`;
+      if (zhEl) zhEl.textContent = `（${item.zh}）`;
+      if (priceEl) priceEl.textContent = `${item.ask} €`;
+      if (slider) {
+        slider.max = Math.max(20, item.ask + 20);
+        slider.value = Math.max(1, Math.round(item.ask * 0.75));
+      }
+      if (num) {
+        num.max = Math.max(20, item.ask + 20);
+        num.value = Math.max(1, Math.round(item.ask * 0.75));
+      }
+      if (accBtn) accBtn.classList.add(`hidden`);
+
+      renderFlohmarktStall();
+      renderFlohLog();
+    }
+
+    function syncOfferFromSlider(val) {
+      const num = document.getElementById(`floh-number`);
+      if (num) num.value = val;
+    }
+
+    function syncOfferFromNumber(val) {
+      const slider = document.getElementById(`floh-slider`);
+      if (slider) slider.value = val;
+    }
+
+    function flohAskPrice() {
+      const item = FLOHMARKT_ITEMS[currentFlohItemIdx];
+      flohLogs.push({ who: `buyer`, de: `Was kostet ${item.article} ${item.word}?`, zh: `這件${item.zh}多少錢？` });
+      flohLogs.push({ who: `seller`, de: `Nur ${currentFlohAsk} Euro.`, zh: `只要 ${currentFlohAsk} 歐元。` });
+      renderFlohLog();
+    }
+
+    function flohAskFunction() {
+      const item = FLOHMARKT_ITEMS[currentFlohItemIdx];
+      flohLogs.push({ who: `buyer`, de: `Funktioniert ${item.pron}?`, zh: `它能正常運作嗎？` });
+      flohLogs.push({ who: `seller`, de: item.condDe, zh: item.condZh });
+      renderFlohLog();
+    }
+
+    function submitFlohOffer() {
+      const item = FLOHMARKT_ITEMS[currentFlohItemIdx];
+      const num = document.getElementById(`floh-number`);
+      const accBtn = document.getElementById(`floh-accept-btn`);
+      const offer = Math.max(1, parseInt(num ? num.value : `1`, 10) || 1);
+
+      flohLogs.push({ who: `buyer`, de: `Das ist sehr teuer! Ich zahle ${offer} Euro.`, zh: `這好貴！我出價 ${offer} 歐元。` });
+
+      if (offer >= item.min) {
+        currentFlohAsk = offer;
+        flohDealReached = true;
+        flohLogs.push({ who: `seller`, de: `Na gut, nur heute! Für Sie ${offer} Euro.`, zh: `好吧，限今天特價！算您 ${offer} 歐元。` });
+        if (accBtn) accBtn.classList.remove(`hidden`);
+      } else {
+        const counter = Math.max(item.min, Math.round((offer + currentFlohAsk) / 2));
+        currentFlohAsk = counter;
+        flohLogs.push({ who: `seller`, de: `Nein, das ist sehr wenig! ${counter} Euro?`, zh: `不行，那太少了！${counter} 歐元好嗎？` });
+      }
+      renderFlohLog();
+    }
+
+    function acceptFlohDeal() {
+      const item = FLOHMARKT_ITEMS[currentFlohItemIdx];
+      const accBtn = document.getElementById(`floh-accept-btn`);
+      const accArt = item.article === `der` ? `den` : item.article;
+      flohLogs.push({ who: `buyer`, de: `Gut, ${accArt} nehme ich! Danke!`, zh: `好，我買了！謝謝！` });
+      flohLogs.push({ who: `seller`, de: `Gerne! Viel Spaß damit!`, zh: `不客氣！祝您使用愉快！` });
+      if (accBtn) accBtn.classList.add(`hidden`);
+
+      if (!Array.isArray(appState.exploredFlohmarkt)) appState.exploredFlohmarkt = [];
+      if (!appState.exploredFlohmarkt.includes(item.id)) {
+        appState.exploredFlohmarkt.push(item.id);
+        saveAppState();
+      }
+      renderFlohmarktStall();
+      renderFlohLog();
+    }
+
+    function renderFlohLog() {
+      const logEl = document.getElementById(`floh-log`);
+      if (!logEl) return;
+      logEl.innerHTML = flohLogs.slice(-5).map(function(entry) {
+        return `
+          <div class="dialogue-bubble ${entry.who}">
+            <div style="font-size:var(--label-size); font-weight:700; color:var(--on-surface-variant);">
+              ${entry.who === `seller` ? `VERKÄUFER/IN 賣家` : `KÄUFER/IN 買家（你）`}
+            </div>
+            <div class="de-word" style="font-weight:700; margin-top:2px;">${entry.de}</div>
+            <div class="muted" style="font-size:0.875rem;">${entry.zh}</div>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    // =========================================================================
+    // MODULE 3: GRAMMATIK VISUALIZER
+    // =========================================================================
+    function renderArticleMatrixUI(typeKey) {
+      selectedArticleKey = typeKey;
+      const btns = document.querySelectorAll(`[data-art]`);
+      btns.forEach(function(b) {
+        if (b.dataset.art === typeKey) b.classList.add(`active`);
+        else b.classList.remove(`active`);
+      });
+      [`def`, `indef`, `neg`, `poss`].forEach(function(k) {
+        const row = document.getElementById(`row-${k}`);
+        if (row) {
+          if (k === typeKey) row.classList.add(`is-highlighted`);
+          else row.classList.remove(`is-highlighted`);
+        }
+      });
+    }
+
+    function selectArticleType(typeKey) {
+      renderArticleMatrixUI(typeKey);
+      appState.exploredGrammar = true;
+      saveAppState();
+      updateGrammarBuilder();
+    }
+
+    function updateGrammarBuilder() {
+      const nounSel = document.getElementById(`gram-noun-select`);
+      const adjSel = document.getElementById(`gram-adj-select`);
+      const out = document.getElementById(`gram-builder-output`);
+      if (!nounSel || !adjSel || !out) return;
+
+      const idx = parseInt(nounSel.value, 10) || 0;
+      const item = GRAMMAR_NOUNS[idx] || GRAMMAR_NOUNS[0];
+      const adj = adjSel.value || `modern`;
+      const capArt = item.art.charAt(0).toUpperCase() + item.art.slice(1);
+      const isFem = item.art === `die`;
+
+      let lineDe = ``;
+      let lineZh = ``;
+      let note = ``;
+
+      if (selectedArticleKey === `def`) {
+        lineDe = `${capArt} ${item.word} ist ${adj}. → ${item.pron} funktioniert gut.`;
+        lineZh = `這（個/台/支）${item.zh}很 ${adj}。→ 它運作得很好。`;
+        note = `定冠詞特指眼前已知的事物（${item.art} ${item.word}），第二句即可用代名詞 ${item.pron} 取代。`;
+      } else if (selectedArticleKey === `indef`) {
+        lineDe = `Das ist <strong>${item.indef}</strong> ${item.word}. ${capArt} ${item.word} ist ${adj}.`;
+        lineZh = `這是一（個/台/支）${item.zh}。這${item.zh}很 ${adj}。`;
+        note = `初次介紹用不定冠詞「${item.indef}」，${isFem ? `陰性名詞字尾須加上 -e 成為 eine` : `陽性與中性主格皆為 ein（無字尾）`}。`;
+      } else if (selectedArticleKey === `neg`) {
+        lineDe = `Ist das ${item.indef} ${item.word}? — Nein, das ist <strong>${item.neg}</strong> ${item.word}.`;
+        lineZh = `這是一${item.zh}嗎？— 不，這不是${item.zh}。`;
+        note = `否定名詞請用否定冠詞「${item.neg}」，變化規則與 ein/eine 完全相同${isFem ? `（陰性為 keine）` : ``}。`;
+      } else {
+        lineDe = `Ist das <strong>${item.dein}</strong> ${item.word}? — Ja, das ist <strong>${item.mein}</strong> ${item.word}. ${item.pron} ist ${adj}.`;
+        lineZh = `這是你的${item.zh}嗎？— 是的，這是我的${item.zh}。它很 ${adj}。`;
+        note = `所有格冠詞「我的/你的」同樣看名詞性別：${isFem ? `陰性名詞加上 -e（meine / deine）` : `陽性與中性不加字尾（mein / dein）`}。`;
+      }
+
+      out.innerHTML = `
+        <div class="de-word" style="font-size:1.25rem; font-weight:700;">${lineDe}</div>
+        <div style="margin-top:var(--space-xs); font-weight:600;">${lineZh}</div>
+        <div class="muted" style="margin-top:var(--space-sm); font-size:0.9rem;">文法重點：${note}</div>
+      `;
+    }
+
+    function toggleSandboxPronoun(id) {
+      sandboxFlippedIds[id] = !sandboxFlippedIds[id];
+      appState.exploredGrammar = true;
+      saveAppState();
+      renderPronounSandbox();
+    }
+
+    function renderPronounSandbox() {
+      const box = document.getElementById(`pronoun-sandbox`);
+      if (!box) return;
+      box.innerHTML = PRONOUN_SANDBOX_DATA.map(function(item) {
+        const switched = Boolean(sandboxFlippedIds[item.id]);
+        return `
+          <div class="pronoun-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="gender-pill ${getGenderClass(item.art)}">${item.art} → ${item.pron.toLowerCase()}</span>
+              <button type="button" class="btn btn-sm ${switched ? `btn-primary` : ``}" onclick="toggleSandboxPronoun('${item.id}')">
+                ${switched ? `還原名詞` : `替換為代名詞`}
+              </button>
+            </div>
+            <div class="de-word" style="font-size:1.2rem; font-weight:700; min-height:3rem; display:flex; align-items:center;">
+              <span>
+                <mark style="background-color:${switched ? `var(--primary-container)` : `var(--surface-container-high)`}; padding:2px 6px;">${switched ? item.pron : item.noun}</mark>
+                ${item.verb}
+              </span>
+            </div>
+            <div class="muted" style="font-size:0.875rem;">${item.zh}</div>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    // =========================================================================
+    // MODULE 4: REDEMITTEL & DIALOGE
+    // =========================================================================
+    function toggleDialogZh() {
+      showDialogZh = !showDialogZh;
+      const btn = document.getElementById(`toggle-zh-btn`);
+      if (btn) {
+        btn.textContent = `顯示中文翻譯：${showDialogZh ? `開` : `關`}`;
+        if (showDialogZh) btn.classList.add(`active`);
+        else btn.classList.remove(`active`);
+      }
+      renderDialogs();
+    }
+
+    function toggleDialogMask() {
+      maskDialogLines = !maskDialogLines;
+      const btn = document.getElementById(`toggle-mask-btn`);
+      if (btn) {
+        btn.textContent = `自我口說遮罩：${maskDialogLines ? `開` : `關`}`;
+        if (maskDialogLines) btn.classList.add(`active`);
+        else btn.classList.remove(`active`);
+      }
+      renderDialogs();
+    }
+
+    function toggleDialogPracticed(dialogId) {
+      if (!Array.isArray(appState.practicedDialogs)) appState.practicedDialogs = [];
+      const idx = appState.practicedDialogs.indexOf(dialogId);
+      if (idx === -1) appState.practicedDialogs.push(dialogId);
+      else appState.practicedDialogs.splice(idx, 1);
+      saveAppState();
+      renderDialogs();
+    }
+
+    function renderDialogs() {
+      const container = document.getElementById(`dialogs-container`);
+      if (!container) return;
+      container.innerHTML = DIALOGS.map(function(d) {
+        const practiced = (appState.practicedDialogs || []).includes(d.id);
+        return `
+          <article class="dialog-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm); border-bottom:var(--border-medium); padding-bottom:var(--space-sm);">
+              <strong class="de-word" style="font-size:1.1rem;">${d.title}</strong>
+              <span class="kicker kicker-yellow tabular">${d.priceTag}</span>
+            </div>
+            <div>
+              ${d.lines.map(function(line) {
+                const isBuyer = line.role === `K`;
+                const hideDe = maskDialogLines && isBuyer;
+                return `
+                  <div class="dialog-line">
+                    <span class="dialog-role ${isBuyer ? `role-k` : `role-v`}">${line.name}</span>
+                    <div>
+                      <div class="de-word" style="font-weight:700;">
+                        ${hideDe ? `<span class="muted">（口說提示：${line.zh}）</span>` : line.de}
+                      </div>
+                      ${showDialogZh && !hideDe ? `<div class="muted" style="font-size:0.875rem;">${line.zh}</div>` : ``}
+                    </div>
+                  </div>
+                `;
+              }).join(``)}
+            </div>
+            <div style="margin-top:auto; display:flex; justify-content:flex-end;">
+              <button type="button" class="btn btn-sm ${practiced ? `btn-blue` : `btn-primary`}" onclick="toggleDialogPracticed('${d.id}')">
+                ${practiced ? `✓ 已完成對話練習` : `標記為已練習`}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join(``);
+    }
+
+    // =========================================================================
+    // MODULE 5: INTERACTIVE QUIZZES
+    // =========================================================================
+    function selectQuizOption(qId, optVal) {
+      if (!appState.quizAnswers) appState.quizAnswers = {};
+      appState.quizAnswers[qId] = optVal;
+      appState.quizSubmitted = false;
+      saveAppState();
+      renderAllQuizzes();
+    }
+
+    function moveReorderLine(qId, idx, dir) {
+      if (!appState.reorderState || !appState.reorderState[qId]) return;
+      const arr = appState.reorderState[qId];
+      const target = idx + dir;
+      if (target < 0 || target >= arr.length) return;
+      const temp = arr[idx];
+      arr[idx] = arr[target];
+      arr[target] = temp;
+      appState.quizSubmitted = false;
+      saveAppState();
+      renderAllQuizzes();
+    }
+
+    function gradeAllQuizzes() {
+      appState.quizSubmitted = true;
+      let score = 0;
+      const allMcq = QUIZ1_DATA.concat(QUIZ2_DATA).concat(QUIZ3_PRICE_DATA);
+      allMcq.forEach(function(q) {
+        if ((appState.quizAnswers || {})[q.id] === q.ans) {
+          score += 1;
+        }
+      });
+      QUIZ3_REORDER_DATA.forEach(function(rq) {
+        const userArr = (appState.reorderState || {})[rq.id] || [];
+        const isMatch = rq.correctOrder.every(function(line, i) { return userArr[i] === line; });
+        if (isMatch) score += 1;
+      });
+      if (appState.bestQuizScore === null || score > appState.bestQuizScore) {
+        appState.bestQuizScore = score;
+      }
+      saveAppState();
+      renderAllQuizzes();
+      const summary = document.getElementById(`quiz-summary-box`);
+      if (summary) summary.scrollIntoView({ behavior: `smooth`, block: `nearest` });
+    }
+
+    function resetAllQuizzes() {
+      appState.quizAnswers = {};
+      appState.reorderState = {
+        q3_5: QUIZ3_REORDER_DATA[0].initialScrambled.slice(),
+        q3_6: QUIZ3_REORDER_DATA[1].initialScrambled.slice()
+      };
+      appState.quizSubmitted = false;
+      saveAppState();
+      renderAllQuizzes();
+    }
+
+    function renderMcqList(containerId, items) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = items.map(function(q, idx) {
+        const chosen = (appState.quizAnswers || {})[q.id] || null;
+        const isSubmitted = Boolean(appState.quizSubmitted);
+        const isCorrect = isSubmitted && chosen === q.ans;
+        const isWrong = isSubmitted && chosen !== q.ans;
+
+        return `
+          <div class="quiz-question ${isCorrect ? `correct` : ``} ${isWrong ? `wrong` : ``}">
+            <div style="font-weight:700;">
+              <span class="tabular" style="margin-right:var(--space-xs);">${idx + 1}.</span>
+              <span class="de-word">${q.prompt}</span>
+            </div>
+            <div class="quiz-options">
+              ${q.opts.map(function(opt) {
+                const isSelected = chosen === opt;
+                return `<button type="button" class="quiz-opt-btn ${isSelected ? `selected` : ``}" onclick="selectQuizOption('${q.id}', '${opt}')">${opt}</button>`;
+              }).join(``)}
+            </div>
+            ${isSubmitted ? `
+              <div class="quiz-explain">
+                <strong>${isCorrect ? `✓ 答對了！` : `✗ 正確答案：${q.ans}`}</strong>
+                <div style="margin-top:2px;">${q.exp}</div>
+              </div>
+            ` : ``}
+          </div>
+        `;
+      }).join(``);
+    }
+
+    function renderReorderList() {
+      const container = document.getElementById(`quiz3-list`);
+      if (!container) return;
+
+      // Render Price MCQs first
+      const priceHtml = QUIZ3_PRICE_DATA.map(function(q, idx) {
+        const chosen = (appState.quizAnswers || {})[q.id] || null;
+        const isSubmitted = Boolean(appState.quizSubmitted);
+        const isCorrect = isSubmitted && chosen === q.ans;
+        const isWrong = isSubmitted && chosen !== q.ans;
+
+        return `
+          <div class="quiz-question ${isCorrect ? `correct` : ``} ${isWrong ? `wrong` : ``}">
+            <div style="font-weight:700;">
+              <span class="tabular" style="margin-right:var(--space-xs);">${idx + 1}.</span>
+              <span>${q.prompt}</span>
+            </div>
+            <div class="quiz-options">
+              ${q.opts.map(function(opt) {
+                const isSelected = chosen === opt;
+                return `<button type="button" class="quiz-opt-btn de-word ${isSelected ? `selected` : ``}" onclick="selectQuizOption('${q.id}', '${opt}')">${opt}</button>`;
+              }).join(``)}
+            </div>
+            ${isSubmitted ? `
+              <div class="quiz-explain">
+                <strong>${isCorrect ? `✓ 答對了！` : `✗ 正確答案：${q.ans}`}</strong>
+                <div style="margin-top:2px;">${q.exp}</div>
+              </div>
+            ` : ``}
+          </div>
+        `;
+      }).join(``);
+
+      // Render Reorder Tasks
+      const reorderHtml = QUIZ3_REORDER_DATA.map(function(rq, idx) {
+        const userArr = (appState.reorderState || {})[rq.id] || rq.initialScrambled;
+        const isSubmitted = Boolean(appState.quizSubmitted);
+        const isCorrect = isSubmitted && rq.correctOrder.every(function(line, i) { return userArr[i] === line; });
+        const isWrong = isSubmitted && !isCorrect;
+
+        return `
+          <div class="quiz-question ${isCorrect ? `correct` : ``} ${isWrong ? `wrong` : ``}">
+            <div style="font-weight:700;">${idx + 5}. ${rq.title}</div>
+            <div class="reorder-list">
+              ${userArr.map(function(line, lIdx) {
+                return `
+                  <div class="reorder-row">
+                    <div>
+                      <span class="kicker" style="margin-right:var(--space-sm);">${lIdx + 1}</span>
+                      <span class="de-word" style="font-weight:600;">${line}</span>
+                    </div>
+                    <div class="reorder-btns">
+                      <button type="button" class="btn btn-sm" aria-label="上移這一句" ${lIdx === 0 ? `disabled` : ``} onclick="moveReorderLine('${rq.id}', ${lIdx}, -1)">▲ 上移</button>
+                      <button type="button" class="btn btn-sm" aria-label="下移這一句" ${lIdx === userArr.length - 1 ? `disabled` : ``} onclick="moveReorderLine('${rq.id}', ${lIdx}, 1)">▼ 下移</button>
+                    </div>
+                  </div>
+                `;
+              }).join(``)}
+            </div>
+            ${isSubmitted ? `
+              <div class="quiz-explain">
+                <strong>${isCorrect ? `✓ 對話順序完全正確！` : `✗ 順序有誤，請參考解析：`}</strong>
+                <div style="margin-top:2px;">${rq.exp}</div>
+              </div>
+            ` : ``}
+          </div>
+        `;
+      }).join(``);
+
+      container.innerHTML = priceHtml + reorderHtml;
+    }
+
+    function updateQuizSummary() {
+      const badge = document.getElementById(`quiz-status-badge`);
+      const headline = document.getElementById(`quiz-score-headline`);
+      const sub = document.getElementById(`quiz-score-sub`);
+      if (!badge || !headline || !sub) return;
+
+      if (!appState.quizSubmitted) {
+        const answeredMcq = Object.keys(appState.quizAnswers || {}).length;
+        badge.textContent = `作答進行中`;
+        badge.className = `kicker`;
+        headline.textContent = `已作答 ${answeredMcq} / 18 題選擇題（另有 2 題對話排序）`;
+        sub.textContent = `全部完成後請按右側「送出批改全部測驗」查看總分與詳細解析。`;
+        return;
+      }
+
+      let score = 0;
+      const allMcq = QUIZ1_DATA.concat(QUIZ2_DATA).concat(QUIZ3_PRICE_DATA);
+      allMcq.forEach(function(q) {
+        if ((appState.quizAnswers || {})[q.id] === q.ans) score += 1;
+      });
+      QUIZ3_REORDER_DATA.forEach(function(rq) {
+        const userArr = (appState.reorderState || {})[rq.id] || [];
+        if (rq.correctOrder.every(function(line, i) { return userArr[i] === line; })) score += 1;
+      });
+
+      badge.textContent = score >= 16 ? `SUPER! 表現優秀` : `批改完成`;
+      badge.className = score >= 16 ? `kicker kicker-yellow` : `kicker kicker-blue`;
+      headline.textContent = `本次測驗得分：${score} / 20 分（正確率 ${Math.round((score / 20) * 100)}%）`;
+      sub.textContent = score === 20
+        ? `太厲害了！你已完全掌握第三章的冠詞性別、代名詞 er/es/sie 與價格數字表達。`
+        : `請往下查看紅底標示題目的詳細中文文法解析，複習後可隨時點擊「重新挑戰」。`;
+    }
+
+    function renderAllQuizzes() {
+      renderMcqList(`quiz1-list`, QUIZ1_DATA);
+      renderMcqList(`quiz2-list`, QUIZ2_DATA);
+      renderReorderList();
+      updateQuizSummary();
+    }
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    function renderAll() {
+      renderSpotlight();
+      renderVocabGrid();
+      renderCompoundGrid();
+      updateNumberConverter();
+      selectFlohItem(currentFlohItemIdx);
+      renderArticleMatrixUI(selectedArticleKey);
+      updateGrammarBuilder();
+      renderPronounSandbox();
+      renderDialogs();
+      renderAllQuizzes();
+      updateProgressUI();
+    }
+
+    async function initApp() {
+      await loadAppState();
+      renderAll();
+      if (appState.activeTab && appState.activeTab !== `vocab`) {
+        switchTab(appState.activeTab);
+      }
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
